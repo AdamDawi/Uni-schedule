@@ -47,6 +47,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -66,4 +67,38 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //ksp(libs.hilt.android.compiler)
+    implementation(libs.viewmodel)
+    implementation(libs.hilt.android)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    //for hiltViewModel()
+    implementation(libs.androidx.hilt.navigation.compose)
+    //ksp(libs.androidx.room.compiler)
+
+    // Local unit tests
+    testImplementation(libs.androidx.core)
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.truth)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.mockk)
+    debugImplementation(libs.ui.test.manifest)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+
+
+    // Instrumentation tests
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.junit)
+    //kspAndroidTest(libs.hilt.android.compiler.v237)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.androidx.junit.v113)
+    androidTestImplementation(libs.core.ktx)
+    androidTestImplementation(libs.mockwebserver.v4110)
+    androidTestImplementation(libs.androidx.runner)
 }
