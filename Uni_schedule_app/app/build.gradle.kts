@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -67,6 +69,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    kapt(libs.hilt.android.compiler)
     //ksp(libs.hilt.android.compiler)
     implementation(libs.viewmodel)
     implementation(libs.hilt.android)
@@ -88,11 +91,13 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    kapt("androidx.room:room-compiler:2.6.1")
 
 
     // Instrumentation tests
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.junit)
+    kaptAndroidTest(libs.dagger.hilt.android.compiler.v237)
     //kspAndroidTest(libs.hilt.android.compiler.v237)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.core.testing)
@@ -101,4 +106,8 @@ dependencies {
     androidTestImplementation(libs.core.ktx)
     androidTestImplementation(libs.mockwebserver.v4110)
     androidTestImplementation(libs.androidx.runner)
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import com.example.unischedule.presentation.main_screen.MainScreen
 import com.example.unischedule.ui.theme.BackgroundColor
 import com.example.unischedule.ui.theme.UniScheduleTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

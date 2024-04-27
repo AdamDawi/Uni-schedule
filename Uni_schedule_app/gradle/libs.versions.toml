@@ -6,9 +6,10 @@ core = "1.5.0"
 coreKtxVersion = "1.4.0"
 coreTesting = "2.1.0"
 hiltAndroid = "2.48"
-hiltAndroidCompiler = "2.37"
+hiltAndroidCompiler = "2.48"
+hiltAndroidCompilerVersion = "2.37"
 hiltAndroidTesting = "2.37"
-hiltNavigationCompose = "1.2.0"
+hiltNavigationCompose = "1.1.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.0"
 junit = "4.13.2"
@@ -39,6 +40,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-runner = { module = "androidx.test:runner", version.ref = "coreKtxVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersion" }
+dagger-hilt-android-compiler-v237 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompilerVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-android-compiler-v237 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
