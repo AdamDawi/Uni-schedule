@@ -75,6 +75,11 @@ const getSchedule = async (url) => {
     if (!leaderString.length) return '';
     return leaderString[0].split('">')[1].slice(0, -4);
   };
+  const getRoom = (course) => {
+    const roomString = course.content.filter((s) => s.includes('type=20'));
+    if (!roomString.length) return '';
+    return roomString[0].split('">')[1].slice(0, -4);
+  };
 
   const coursesList = fillteredCourses.map((course) => {
     const time = getTime(course.content[course.content.length - 1]);
@@ -84,6 +89,7 @@ const getSchedule = async (url) => {
       end: time[1],
       name: getName(course.content[0]),
       leader: getLeader(course),
+      room: getRoom(course),
     };
   });
   await browser.close();
