@@ -70,14 +70,20 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     kapt(libs.hilt.android.compiler)
-    //ksp(libs.hilt.android.compiler)
     implementation(libs.viewmodel)
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
     //for hiltViewModel()
     implementation(libs.androidx.hilt.navigation.compose)
-    //ksp(libs.androidx.room.compiler)
+
+    //image loading
+    implementation(libs.coil.compose)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     // Local unit tests
     testImplementation(libs.androidx.core)
@@ -89,16 +95,10 @@ dependencies {
     testImplementation(libs.mockk)
     debugImplementation(libs.ui.test.manifest)
 
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt("androidx.room:room-compiler:2.6.1")
-
-
     // Instrumentation tests
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.junit)
     kaptAndroidTest(libs.dagger.hilt.android.compiler.v237)
-    //kspAndroidTest(libs.hilt.android.compiler.v237)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.truth)
