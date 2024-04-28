@@ -1,5 +1,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
+const helmet = require('helmet');
+const compression = require('compression');
 
 const app = express();
 
@@ -62,9 +64,13 @@ const getSchedule = async (url) => {
     };
     const getTime = (time) => {
       if (isNaN(Number(time[0]))) return ['', ''];
+      const startArr = time.split('-')[0].trim().split(':');
+      const start = +startArr[0] * 60 + +startArr[1];
+      const endArr = time.split('-')[1].trim().split(':');
+      const end = +endArr[0] * 60 + +endArr[1];
       return {
-        start: time.split('-')[0].trim(),
-        end: time.split('-')[1].trim(),
+        start,
+        end,
       };
     };
     const getLeader = (course) => {
@@ -104,9 +110,9 @@ const getSchedule = async (url) => {
       const time = getTime(course.content[course.content.length - 1]);
       const nameType = getNameType(course.content[0]);
       return {
-        day: getDay(course.left),
-        start: time.start,
-        end: time.end,
+        dayOfWeek: getDay(course.left),
+        startTime: time.start,
+        endTime: time.end,
         name: nameType.name,
         leader: getLeader(course),
         room: getRoom(course),
@@ -130,6 +136,16 @@ const getSchedule = async (url) => {
   }
 };
 
+app.use(helmet());
+app.use(compression());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 app.get('/', async (req, res, next) => {
   try {
     const url = `${req.query.url}&id=${req.query.id}`;
@@ -140,4 +156,4 @@ app.get('/', async (req, res, next) => {
   }
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
