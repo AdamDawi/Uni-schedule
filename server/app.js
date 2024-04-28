@@ -33,7 +33,6 @@ const getSchedule = async (url) => {
       day.content === 'Sobota/Saturday' ||
       day.content === 'Niedziela/Sunday'
   );
-  console.log(fillteredDays);
   const coursesData = await page.evaluate(() => {
     const coursesDivs = Array.from(document.querySelectorAll('.coursediv'));
 
@@ -42,6 +41,7 @@ const getSchedule = async (url) => {
       return {
         left: +style.getPropertyValue('left').split('p')[0],
         content: course.innerHTML.trim(),
+        color: style.getPropertyValue('background-color'),
       };
     });
     return coursesInfo;
@@ -55,20 +55,13 @@ const getSchedule = async (url) => {
     return { ...course, content: course.content.trim().split('<br>') };
   });
 
-  console.log(fillteredCourses);
-
   const getDay = (coursePosition) => {
     const day = fillteredDays.filter((d) => d.left === coursePosition - 1);
     return day[0].content.split('/')[1];
   };
   const getTime = (time) => {
     if (isNaN(Number(time[0]))) return ['', ''];
-    return [time.split('-')[0].trim(), time.split('-')[1].trim()];
-  };
-  const getName = (stringName) => {
-    const name = stringName.split('">');
-    if (name.length === 2) return name[1];
-    return name[2];
+    return { start: time.split('-')[0].trim(), end: time.split('-')[1].trim() };
   };
   const getLeader = (course) => {
     const leaderString = course.content.filter((s) => s.includes('type=10'));
@@ -80,16 +73,45 @@ const getSchedule = async (url) => {
     if (!roomString.length) return '';
     return roomString[0].split('">')[1].slice(0, -4);
   };
+  const getNameType = (courseName) => {
+    let name = courseName.split('">');
+    let splitedName = '';
+    if (name.length === 2) {
+      splitedName = name[1].split(',');
+    } else {
+      splitedName = name[2].split(',');
+    }
+
+    let type = '';
+
+    if (splitedName.length >= 2) {
+      type = splitedName[splitedName.length - 1].trim();
+      splitedName.pop();
+      name = splitedName.join(',');
+    } else name = splitedName[0];
+
+    return {
+      name,
+      type,
+    };
+  };
 
   const coursesList = fillteredCourses.map((course) => {
     const time = getTime(course.content[course.content.length - 1]);
+    const nameType = getNameType(course.content[0]);
     return {
       day: getDay(course.left),
-      start: time[0],
-      end: time[1],
-      name: getName(course.content[0]),
+      start: time.start,
+      end: time.end,
+      name: nameType.name,
       leader: getLeader(course),
       room: getRoom(course),
+      type: nameType.type,
+      color: course.color
+        .split('(')[1]
+        .slice(0, -1)
+        .split(',')
+        .map((n) => +n),
     };
   });
   await browser.close();
