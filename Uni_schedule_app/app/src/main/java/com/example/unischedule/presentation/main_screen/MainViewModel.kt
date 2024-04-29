@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.unischedule.common.Constants
 import com.example.unischedule.common.Resource
 import com.example.unischedule.domain.use_case.GetCoursesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,17 @@ class MainViewModel @Inject constructor(
         getCoursesUseCase().onEach { result ->
             when(result){
                 is Resource.Success -> {
-                    _state.value = _state.value.copy(courses = result.data ?: emptyList())
+                    val courses = result.data ?: emptyList()
+                    _state.value = _state.value.copy(
+                        mondayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[0] },
+                        tuesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[1] },
+                        wednesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[2] },
+                        thursdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[3] },
+                        fridayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[4] },
+                        saturdayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[0] },
+                        sundayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[1] },
+                        isLoading = false
+                    )
                 }
                 is Resource.Error -> {
                     _state.value = _state.value.copy(errorMessage = result.message ?: "An unexpected error")

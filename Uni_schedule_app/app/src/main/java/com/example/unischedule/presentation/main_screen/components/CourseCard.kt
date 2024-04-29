@@ -1,8 +1,10 @@
 package com.example.unischedule.presentation.main_screen.components
 
+import android.graphics.Color.rgb
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -14,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.unischedule.domain.model.Course
@@ -26,7 +29,7 @@ fun CourseCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(start = 12.dp, end = 12.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(course.color),
         contentAlignment = Alignment.Center
@@ -44,46 +47,50 @@ fun CourseCard(
     }
 }
 
-//@Preview
-//@Composable
-//private fun CourseCardNormalSizePreview() {
-//    CourseCard(course =
-//        Course("Podstawy techniki cyfrowej, wy", 495, 585, color = Color(
-//            android.graphics.Color.rgb(
-//                202,
-//                255,
-//                14
-//            )
-//        )),
-//        modifier = Modifier.height(150.dp)
-//    )
-//}
-//
-//@Preview
-//@Composable
-//private fun CourseCardBigSizePreview() {
-//    CourseCard(course =
-//    Course("Podstawy techniki cyfrowej, wy", 495, 585, color = Color(
-//        android.graphics.Color.rgb(
-//            202,
-//            255,
-//            14
-//        )
-//    )),
-//        modifier = Modifier.height(225.dp)
-//    )
-//}
-//@Preview
-//@Composable
-//private fun CourseCardLongNamePreview() {
-//    CourseCard(course =
-//    Course("Podstawy techniki cyfrowejdsaaaaaaaaaaaaadsadasdsadsadasdasdsaaaaaaaaaaaaaaaadasaaaadsdsa, wy", 495, 585, color = Color(
-//        android.graphics.Color.rgb(
-//            202,
-//            255,
-//            14
-//        )
-//    )),
-//        modifier = Modifier.height(150.dp)
-//    )
-//}
+@Preview
+@Composable
+private fun CourseCardNormalSizePreview() {
+        CourseCard(course =
+        Course(
+            name = "Podstawy techniki cyfrowej",
+            startTime = 495,
+            endTime = 585,
+            color = Color(
+                rgb(
+                    202,
+                    255,
+                    14
+                )
+            )),
+            modifier = Modifier.height(150.dp)
+        )
+}
+
+@Preview
+@Composable
+private fun CourseCardBigSizePreview() {
+    CourseCard(course =
+    Course("Podstawy techniki cyfrowej", 495, 585, color = Color(
+        rgb(
+            202,
+            255,
+            14
+        )
+    )),
+        modifier = Modifier.height(225.dp)
+    )
+}
+@Preview
+@Composable
+private fun CourseCardLongNamePreview() {
+    CourseCard(course =
+    Course("Podstawy techniki cyfrowejdsaaaaaaaaaaaaadsadasdsadsadasdasdsaaaaaaaaaaaaaaaadasaaaadsdsa", 495, 585, color = Color(
+        rgb(
+            202,
+            255,
+            14
+        )
+    )),
+        modifier = Modifier.height(150.dp)
+    )
+}
