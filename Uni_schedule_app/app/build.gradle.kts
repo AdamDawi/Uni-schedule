@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    //for pager
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicators)
 
     //for hiltViewModel()
     implementation(libs.androidx.hilt.navigation.compose)

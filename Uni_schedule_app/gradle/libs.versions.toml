@@ -1,4 +1,6 @@
 [versions]
+accompanistPagerIndicatorsVersion = "0.27.1"
+accompanistPagerVersion = "0.27.1"
 agp = "8.3.2"
 androidxJunit = "1.1.3"
 coilCompose = "2.4.0"
@@ -43,6 +45,8 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersion" }
 dagger-hilt-android-compiler-v237 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompilerVersion" }
+google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPagerVersion" }
+google-accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPagerIndicatorsVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-android-compiler-v237 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
