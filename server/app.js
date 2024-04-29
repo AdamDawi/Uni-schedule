@@ -137,8 +137,8 @@ const getSchedule = async (url) => {
       };
     });
     coursesList.sort((a, b) => {
-      if (a.start < b.start) return -1;
-      if (a.start > b.start) return 1;
+      if (a.startTime < b.startTime) return -1;
+      if (a.startTime > b.startTime) return 1;
       return 0;
     });
     await browser.close();
