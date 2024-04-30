@@ -1,7 +1,10 @@
 package com.example.unischedule.presentation.main_screen.components
 
 import android.graphics.Color.rgb
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,19 +26,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.unischedule.domain.model.Course
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CourseCard(
     modifier: Modifier = Modifier,
     course: Course,
 ) {
+    val openInfoDialog = remember { mutableStateOf(false) }
     Box(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 12.dp, end = 12.dp)
+            .clickable { openInfoDialog.value = true }
             .clip(RoundedCornerShape(12.dp))
             .background(course.color),
         contentAlignment = Alignment.Center
     ) {
+        if(course.type.isNotEmpty()){
+            Box(modifier = Modifier
+                .clip(RoundedCornerShape(0.dp, 12.dp, 0.dp, 12.dp))
+                .background(
+                    Color(
+                        rgb(
+                            course.color.red * 0.9f,
+                            course.color.green * 0.9f,
+                            course.color.blue * 0.9f
+                        )
+                    )
+                )
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+            ){
+                Text(
+                    text = course.type
+                )
+            }
+        }
+        if(openInfoDialog.value){
+            InfoDialog(
+                course = course,
+                onDismissRequest = {openInfoDialog.value = false}
+            )
+        }
         Text(
             modifier = Modifier.padding(12.dp),
             text = course.name,
@@ -46,7 +81,7 @@ fun CourseCard(
         )
     }
 }
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardNormalSizePreview() {
@@ -61,11 +96,13 @@ private fun CourseCardNormalSizePreview() {
                     255,
                     14
                 )
-            )),
+            ),
+            type = "wy"),
             modifier = Modifier.height(150.dp)
         )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardBigSizePreview() {
@@ -80,6 +117,7 @@ private fun CourseCardBigSizePreview() {
         modifier = Modifier.height(225.dp)
     )
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardLongNamePreview() {

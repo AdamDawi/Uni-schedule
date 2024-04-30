@@ -1,6 +1,8 @@
 package com.example.unischedule.presentation.main_screen.components
 
 import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +27,8 @@ import com.google.accompanist.pager.rememberPagerState
 
 val HOURS_SIZE = 70.dp
 const val NUMBER_OF_HOURS = 14
+val PADDING_TO_CENTER_FIXED_HOURS = 9.dp
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainContent(
@@ -48,7 +52,6 @@ fun MainContent(
 
     Column(modifier = modifier.fillMaxSize()) {
         ScrollableDayTabs(
-            modifier = Modifier.padding(bottom = 8.dp),
             pagerState = pagerState,
             indicator = indicator,
             daysList = daysList
@@ -65,11 +68,13 @@ fun MainContent(
                     // Fixed component on the left
                     FixedHoursComponent(
                         modifier = Modifier
-                            .padding(start = 8.dp)
+                            .padding(start = 8.dp, end = 8.dp)
                     )
                     // Pager content takes up the remaining space
                     HorizontalPager(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = PADDING_TO_CENTER_FIXED_HOURS),
                         count = daysList.size,
                         state = pagerState
                     ) { page ->
