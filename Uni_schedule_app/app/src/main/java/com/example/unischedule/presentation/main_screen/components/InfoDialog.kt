@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.unischedule.domain.model.Course
+import com.example.unischedule.domain.model.formattedTime
 
 @Composable
 fun InfoDialog(
@@ -36,19 +37,19 @@ fun InfoDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = course.leader,
+                    text = course.leader.ifEmpty { "No leader" },
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = course.room,
+                    text = course.room.ifEmpty { "No room" },
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "${course.startTime/60} - ${course.endTime/60}",
+                    text = course.formattedTime().ifEmpty { "No time" },
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )

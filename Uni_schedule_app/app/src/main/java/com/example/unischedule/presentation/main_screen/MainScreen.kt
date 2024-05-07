@@ -37,6 +37,7 @@ fun MainScreen(
         if(state.isLoading){
             Column(modifier = Modifier
                 .fillMaxSize()
+                .padding(it)
                 .background(BackgroundColor),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
