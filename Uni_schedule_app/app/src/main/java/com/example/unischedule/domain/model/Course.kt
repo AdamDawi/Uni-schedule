@@ -14,5 +14,7 @@ data class Course(
 )
 
 fun Course.formattedTime(): String{
-    return "${startTime/60}:${if(startTime%60==0) "00" else startTime%60} - ${endTime/60}:${if(endTime%60==0) "00" else endTime%60}"
+    val minutesStartTime = if(startTime%60==0) "00" else startTime%60
+    val minutesEndTime = if(endTime%60==0) "00" else endTime%60
+    return "${startTime/60}:$minutesStartTime - ${endTime/60}:$minutesEndTime"
 }

@@ -1,7 +1,5 @@
 package com.example.unischedule.presentation.main_screen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +21,6 @@ import com.example.unischedule.presentation.main_screen.components.MainContent
 import com.example.unischedule.presentation.main_screen.components.TopScheduleBar
 import com.example.unischedule.ui.theme.BackgroundColor
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
@@ -59,7 +56,8 @@ fun MainScreen(
             MainContent(
                 modifier = Modifier.padding(it),
                 daysList = Constants.FULL_TIME_STUDIES_DAYS_LIST,
-                state
+                state,
+                viewModel
             )
         }
 

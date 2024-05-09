@@ -1,9 +1,8 @@
 package com.example.unischedule.presentation.main_screen.components
 
 import android.graphics.Color.rgb
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.example.unischedule.domain.model.Course
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CourseCard(
     modifier: Modifier = Modifier,
@@ -40,7 +38,18 @@ fun CourseCard(
             .padding(start = 12.dp, end = 12.dp)
             .clickable { openInfoDialog.value = true }
             .clip(RoundedCornerShape(12.dp))
-            .background(course.color),
+            .border(2.dp, Color(
+                //darker color
+                rgb(
+                    course.color.red * 0.9f,
+                    course.color.green * 0.9f,
+                    course.color.blue * 0.9f
+                )
+            ),
+                RoundedCornerShape(12.dp)
+            )
+            .background(course.color)
+            ,
         contentAlignment = Alignment.Center
     ) {
         if(course.type.isNotEmpty()){
@@ -48,6 +57,7 @@ fun CourseCard(
                 .clip(RoundedCornerShape(0.dp, 12.dp, 0.dp, 12.dp))
                 .background(
                     Color(
+                        //darker color
                         rgb(
                             course.color.red * 0.9f,
                             course.color.green * 0.9f,
@@ -55,7 +65,9 @@ fun CourseCard(
                         )
                     )
                 )
+
                 .align(Alignment.TopEnd)
+
                 .padding(8.dp)
             ){
                 Text(
@@ -81,7 +93,6 @@ fun CourseCard(
         )
     }
 }
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardNormalSizePreview() {
@@ -102,7 +113,6 @@ private fun CourseCardNormalSizePreview() {
         )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardBigSizePreview() {
@@ -117,7 +127,6 @@ private fun CourseCardBigSizePreview() {
         modifier = Modifier.height(225.dp)
     )
 }
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 private fun CourseCardLongNamePreview() {

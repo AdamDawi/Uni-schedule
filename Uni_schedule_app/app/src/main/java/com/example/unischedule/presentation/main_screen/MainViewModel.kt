@@ -1,5 +1,6 @@
 package com.example.unischedule.presentation.main_screen
 
+import android.icu.util.Calendar
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -47,5 +48,11 @@ class MainViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun getCurrentTimeInMinutes(): Int{
+        val currentMinute = Calendar.getInstance().get(Calendar.MINUTE)
+        val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        return currentHour*60+currentMinute
     }
 }
