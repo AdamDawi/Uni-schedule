@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.TabPosition
@@ -25,6 +26,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.example.unischedule.presentation.main_screen.MainState
 import com.example.unischedule.presentation.main_screen.MainViewModel
 import com.example.unischedule.ui.theme.BackgroundColor
@@ -50,11 +52,16 @@ fun MainContent(
     }
     val currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
     var isPagerInitialized by remember { mutableStateOf(false) }
+    val lazyListState = rememberLazyListState()
 
     LaunchedEffect(currentDayOfWeek) {
         if (currentDayOfWeek != 1 && currentDayOfWeek != 7 && !isPagerInitialized) {
             isPagerInitialized = true
             pagerState.scrollToPage(currentDayOfWeek - 2)
+            //when time is above 17:00 scroll to next part of the plan
+            if(viewModel.getCurrentTimeInMinutes()>=960)
+                lazyListState.scrollToItem(0, scrollOffset = ((viewModel.getCurrentTimeInMinutes()) / 60f * HOURS_SIZE).value.toInt())
+            else lazyListState.scrollToItem(0)
         }
     }
 
@@ -67,7 +74,8 @@ fun MainContent(
         LazyColumn(
             modifier = Modifier
                 .background(BackgroundColor)
-                .fillMaxSize()
+                .fillMaxSize(),
+            state = lazyListState
         ) {
             item {
                 Row(

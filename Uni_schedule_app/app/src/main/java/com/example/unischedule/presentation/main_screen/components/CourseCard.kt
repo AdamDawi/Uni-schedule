@@ -36,8 +36,8 @@ fun CourseCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 12.dp, end = 12.dp)
-            .clickable { openInfoDialog.value = true }
             .clip(RoundedCornerShape(12.dp))
+            .clickable { openInfoDialog.value = true }
             .border(2.dp, Color(
                 //darker color
                 rgb(
