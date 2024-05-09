@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.unischedule.common.Constants
@@ -39,17 +40,20 @@ fun MainScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ){
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .padding(3.dp),
-                    color = Color.Black
-                )
+                if(state.errorMessage.isEmpty()){
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(3.dp),
+                        color = Color.Black
+                    )
+                }
                 Text(
                     modifier = Modifier.padding(12.dp),
                     text = state.errorMessage.ifEmpty { "Loading data from server..." },
                     color = Color.Black,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center
                 )
             }
         }else{

@@ -22,7 +22,7 @@ object AppModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        builder.readTimeout(60, TimeUnit.SECONDS) // Set read timeout to 60 seconds (adjust as needed)
+        builder.readTimeout(600, TimeUnit.SECONDS) // Set read timeout to 10 minutes
         return builder.build()
     }
 
