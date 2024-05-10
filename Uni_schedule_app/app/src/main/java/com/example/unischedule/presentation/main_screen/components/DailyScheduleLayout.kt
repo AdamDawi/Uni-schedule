@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -23,43 +25,49 @@ fun DailyScheduleLayout(
     ) { //items = [ Red line for current time ], [ Courses ], [ Dividers ]
       items, constraints ->
 
-        //measurements
-        val itemsPlaceable = items.mapIndexed {i , it ->
-            if(i==0){
-                it.measure(Constraints.fixed(constraints.maxWidth, 15.dp.roundToPx()))
-            }
-            else if(i<courseList.size+1){
-                val elHeight = (courseList[i-1].endTime-courseList[i-1].startTime)/ 60f
-                it.measure(Constraints.fixed(constraints.maxWidth, (elHeight* HOURS_SIZE).roundToPx()))
-            }
-            else{
-                it.measure(Constraints.fixed(constraints.maxWidth, 2.dp.roundToPx()))
-            }
+        var redLineItem: Measurable? = null
+        val courseItems = mutableListOf<Measurable>()
+        val dividerItems = mutableListOf<Measurable>()
+
+        items.forEachIndexed { i, item ->
+            if(i == 0) redLineItem = item
+            else if(i<courseList.size+1) courseItems.add(item)
+            else dividerItems.add(item)
         }
+        //measurements
+        //redLine
+        val redLineItemPlaceable = redLineItem?.measure(Constraints.fixed(constraints.maxWidth, 15.dp.roundToPx()))
+        //courses
+        val courseItemsPlaceable = mutableListOf<Placeable>()
+        courseItems.forEachIndexed{ i, course ->
+            val elHeight = (courseList[i].endTime-courseList[i].startTime)/ 60f
+            courseItemsPlaceable.add(course.measure(Constraints.fixed(constraints.maxWidth, (elHeight* HOURS_SIZE).roundToPx())))
+        }
+        //dividers
+        val dividerItemsPlaceable = mutableListOf<Placeable>()
+        dividerItems.forEach{
+            dividerItemsPlaceable.add(it.measure(Constraints.fixed(constraints.maxWidth, 2.dp.roundToPx())))
+        }
+
         //placement
         layout(
             width = constraints.maxWidth,
             height = constraints.maxHeight
         ) {
-            val courseListPlaceable = courseList.reversed()
+            //dividers
             var divY = 0
-
-            itemsPlaceable.reversed().forEachIndexed { i, el ->
-                //place dividers first because we want they on background
-                if(i==itemsPlaceable.size-1){
-                    val elY = ((viewModel.getCurrentTimeInMinutes() - 480) / 60f * HOURS_SIZE)
-                    el.placeRelative(0, elY.roundToPx()-RED_LINE_FOR_CURRENT_TIME_HEIGHT.roundToPx())
-                }
-                else if(i<NUMBER_OF_HOURS) {
-                    el.placeRelative(0, divY)
-                    divY+= HOURS_SIZE.roundToPx()
-                }
-                else
-                {
-                    val elY = ((courseListPlaceable[i-NUMBER_OF_HOURS].startTime - 480) / 60f * HOURS_SIZE)
-                    el.placeRelative(0, elY.roundToPx())
-                }
+            dividerItemsPlaceable.forEach {
+                it.placeRelative(0, divY)
+                divY+= HOURS_SIZE.roundToPx()
             }
+            //courses
+            courseItemsPlaceable.forEachIndexed { i, course ->
+                val elY = ((courseList[i].startTime - 480) / 60f * HOURS_SIZE)
+                course.placeRelative(0, elY.roundToPx())
+            }
+            //redLine
+            val redLineItemY = ((viewModel.getCurrentTimeInMinutes() - 480) / 60f * HOURS_SIZE)
+            redLineItemPlaceable?.placeRelative(0, redLineItemY.roundToPx()-RED_LINE_FOR_CURRENT_TIME_HEIGHT.roundToPx())
         }
     }
 }

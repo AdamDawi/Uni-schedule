@@ -31,6 +31,11 @@ fun CourseCard(
     modifier: Modifier = Modifier,
     course: Course,
 ) {
+    val darkerColor = Color(rgb(
+        course.color.red * 0.9f,
+        course.color.green * 0.9f,
+        course.color.blue * 0.9f
+    ))
     val openInfoDialog = remember { mutableStateOf(false) }
     Box(
         modifier = modifier
@@ -38,36 +43,18 @@ fun CourseCard(
             .padding(start = 12.dp, end = 12.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable { openInfoDialog.value = true }
-            .border(2.dp, Color(
-                //darker color
-                rgb(
-                    course.color.red * 0.9f,
-                    course.color.green * 0.9f,
-                    course.color.blue * 0.9f
-                )
-            ),
+            .border(2.dp,
+                darkerColor,
                 RoundedCornerShape(12.dp)
             )
-            .background(course.color)
-            ,
+            .background(course.color),
         contentAlignment = Alignment.Center
     ) {
         if(course.type.isNotEmpty()){
             Box(modifier = Modifier
                 .clip(RoundedCornerShape(0.dp, 12.dp, 0.dp, 12.dp))
-                .background(
-                    Color(
-                        //darker color
-                        rgb(
-                            course.color.red * 0.9f,
-                            course.color.green * 0.9f,
-                            course.color.blue * 0.9f
-                        )
-                    )
-                )
-
+                .background(darkerColor)
                 .align(Alignment.TopEnd)
-
                 .padding(8.dp)
             ){
                 Text(
