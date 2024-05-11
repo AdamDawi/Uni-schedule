@@ -115,7 +115,6 @@ fun MainContent(
                                         CourseCard(course = i)
                                     for (i in 0 until NUMBER_OF_HOURS)
                                         Divider()
-
                                 }
                             }
                             1 -> {

@@ -29,7 +29,10 @@ fun MainScreen(
     val state = viewModel.state.value
     Scaffold(
         topBar = {
-            TopScheduleBar()
+            TopScheduleBar(
+                onRefreshClick = {},
+                onSettingsClick = {}
+            )
         }
     ) {
         if(state.isLoading){
@@ -43,8 +46,7 @@ fun MainScreen(
                 if(state.errorMessage.isEmpty()){
                     CircularProgressIndicator(
                         modifier = Modifier
-                            .size(40.dp)
-                            .padding(3.dp),
+                            .size(40.dp),
                         color = Color.Black
                     )
                 }
