@@ -19,3 +19,16 @@ data class CourseEntity(
     val room: String = "",
     val type: String = ""
 )
+
+fun CourseEntity.toCourse(): Course{
+    return Course(
+        name = name,
+        startTime = startTime,
+        endTime = endTime,
+        color = Color(color),
+        dayOfWeek = dayOfWeek,
+        leader = leader,
+        room = room,
+        type = type
+    )
+}

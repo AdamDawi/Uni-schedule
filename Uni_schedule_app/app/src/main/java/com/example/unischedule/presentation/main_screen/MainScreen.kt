@@ -52,7 +52,7 @@ fun MainScreen(
                 }
                 Text(
                     modifier = Modifier.padding(12.dp),
-                    text = state.errorMessage.ifEmpty { "Loading data from server..." },
+                    text = state.errorMessage.ifEmpty { "Loading data..." },
                     color = Color.Black,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center

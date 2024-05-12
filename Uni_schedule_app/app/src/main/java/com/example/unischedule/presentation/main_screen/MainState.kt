@@ -4,6 +4,7 @@ import com.example.unischedule.domain.model.Course
 
 data class MainState(
     val isLoading: Boolean = false,
+    val allCourses: List<Course> = emptyList(),
     val mondayCourses: List<Course> = emptyList(),
     val tuesdayCourses: List<Course> = emptyList(),
     val wednesdayCourses: List<Course> = emptyList(),

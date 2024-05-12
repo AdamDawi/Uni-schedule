@@ -33,12 +33,14 @@ fun TopScheduleBar(
             IconButton(onClick = { onRefreshClick() }) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
+                    tint = Color.Black,
                     contentDescription = Icons.Default.Refresh.name
                 )
             }
             IconButton(onClick = { onSettingsClick() }) {
                 Icon(
                     imageVector = Icons.Default.Settings,
+                    tint = Color.Black,
                     contentDescription = Icons.Default.Settings.name
                 )
             }
