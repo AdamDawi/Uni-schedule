@@ -10,6 +10,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.unischedule.common.Constants
 import com.example.unischedule.presentation.main_screen.components.MainContent
+import com.example.unischedule.presentation.main_screen.components.ScheduleAlertDialog
 import com.example.unischedule.presentation.main_screen.components.TopScheduleBar
 import com.example.unischedule.ui.theme.BackgroundColor
 
@@ -27,11 +32,13 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    var isAlertDialogOpen by remember { mutableStateOf(false) }
+    var textInAlertDialog by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             TopScheduleBar(
-                onRefreshClick = {},
-                onSettingsClick = {}
+                onRefreshClick = { viewModel.getAllCoursesApi()},
+                onSettingsClick = { isAlertDialogOpen = true}
             )
         }
     ) {
@@ -65,6 +72,20 @@ fun MainScreen(
                 state,
                 viewModel
             )
+            if(isAlertDialogOpen)
+                ScheduleAlertDialog(
+                    onDismissRequest = {
+                        isAlertDialogOpen = false
+                        textInAlertDialog = ""
+                    },
+                    onConfirmation = {
+                        isAlertDialogOpen = false
+                        textInAlertDialog = ""
+                    },
+                    dialogTitle = "Write your link to schedule",
+                    onValueChange = { text -> textInAlertDialog = text},
+                    text = {textInAlertDialog}
+                )
         }
 
     }

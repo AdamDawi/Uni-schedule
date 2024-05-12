@@ -12,7 +12,7 @@ import com.example.unischedule.domain.repository.ScheduleApiRepository
 import com.example.unischedule.domain.repository.ScheduleDbRepository
 import com.example.unischedule.domain.use_case.AddCoursesToDbUseCase
 import com.example.unischedule.domain.use_case.GetAllCoursesDbUseCase
-import com.example.unischedule.domain.use_case.GetCoursesApiUseCase
+import com.example.unischedule.domain.use_case.GetAllCoursesApiUseCase
 import com.example.unischedule.domain.use_case.MainScreenUseCases
 import dagger.Module
 import dagger.Provides
@@ -84,7 +84,7 @@ object AppModule {
         return MainScreenUseCases(
             AddCoursesToDbUseCase(repositoryDb),
             GetAllCoursesDbUseCase(repositoryDb),
-            GetCoursesApiUseCase(repositoryApi)
+            GetAllCoursesApiUseCase(repositoryApi)
         )
     }
 }

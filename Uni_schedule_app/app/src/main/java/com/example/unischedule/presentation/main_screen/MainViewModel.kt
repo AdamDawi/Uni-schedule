@@ -27,8 +27,8 @@ class MainViewModel @Inject constructor(
         getAllCoursesDb()
     }
 
-    private fun getCourses(){
-        mainScreenUseCases.getCoursesApiUseCase().onEach { result ->
+    fun getAllCoursesApi(){
+        mainScreenUseCases.getAllCoursesApiUseCase().onEach { result ->
             when(result){
                 is Resource.Success -> {
                     val courses = result.data ?: emptyList()
@@ -77,7 +77,7 @@ class MainViewModel @Inject constructor(
                         sundayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[1] }
                     )
                     if(_state.value.allCourses.isEmpty())
-                        getCourses()
+                        getAllCoursesApi()
                     else _state.value = _state.value.copy(isLoading = false)
                 }
                 is Resource.Error -> {
