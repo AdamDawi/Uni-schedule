@@ -36,4 +36,5 @@ object Constants {
         Course("Podstawy aplikacji internetowych, wy", startTime = 750, endTime = 840, color = Color(rgb(202, 255, 14))),
         Course("Podstawy inżynierii oprogramowania, lab", startTime = 855, endTime = 960, color = Color(rgb(233, 255, 233))),
     )
+    const val COURSES_TABLE_NAME = "schedule_table"
 }

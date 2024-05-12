@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class GetCoursesUseCase@Inject constructor(
+class GetCoursesApiUseCase@Inject constructor(
     private val repository: ScheduleApiRepository
 ) {
     operator fun invoke(): Flow<Resource<List<Course>>> = flow{

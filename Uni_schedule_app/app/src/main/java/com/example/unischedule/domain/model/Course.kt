@@ -1,6 +1,7 @@
 package com.example.unischedule.domain.model
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 
 data class Course(
     val name: String = "",
@@ -17,4 +18,17 @@ fun Course.formattedTime(): String{
     val minutesStartTime = if(startTime%60==0) "00" else startTime%60
     val minutesEndTime = if(endTime%60==0) "00" else endTime%60
     return "${startTime/60}:$minutesStartTime - ${endTime/60}:$minutesEndTime"
+}
+
+fun Course.toCourseEntity(): CourseEntity{
+    return CourseEntity(
+        name = name,
+        startTime = startTime,
+        endTime = endTime,
+        color = color.toArgb(),
+        dayOfWeek = dayOfWeek,
+        leader = leader,
+        room = room,
+        type = type
+    )
 }

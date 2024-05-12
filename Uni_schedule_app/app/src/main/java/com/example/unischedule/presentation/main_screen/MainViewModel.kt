@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.unischedule.common.Constants
 import com.example.unischedule.common.Resource
-import com.example.unischedule.domain.use_case.GetCoursesUseCase
+import com.example.unischedule.domain.use_case.MainScreenUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCoursesUseCase: GetCoursesUseCase,
+    private val mainScreenUseCases: MainScreenUseCases,
 ): ViewModel() {
 
     private val _state = mutableStateOf(MainState())
@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun getCourses(){
-        getCoursesUseCase().onEach { result ->
+        mainScreenUseCases.getCoursesApiUseCase().onEach { result ->
             when(result){
                 is Resource.Success -> {
                     val courses = result.data ?: emptyList()
