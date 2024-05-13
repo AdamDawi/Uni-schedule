@@ -13,4 +13,5 @@ import com.example.unischedule.domain.model.CourseEntity
 
 abstract class ScheduleDatabase: RoomDatabase(){
     abstract val scheduleDao: ScheduleDao
+
 }

@@ -31,9 +31,13 @@ class MainViewModel @Inject constructor(
         mainScreenUseCases.getAllCoursesApiUseCase().onEach { result ->
             when(result){
                 is Resource.Success -> {
+                    //delete previous courses from database
+                    mainScreenUseCases.deleteAllCoursesDbUseCase(_state.value.allCourses)
                     val courses = result.data ?: emptyList()
+                    //custom id for transform course to course entity
+                    var i = 0
                     _state.value = _state.value.copy(
-                        allCourses = courses,
+                        allCourses = courses.map { it.toCourseEntity(++i) },
                         mondayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[0] },
                         tuesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[1] },
                         wednesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[2] },
@@ -57,7 +61,7 @@ class MainViewModel @Inject constructor(
 
     private fun saveCoursesInDb(){
         viewModelScope.launch {
-            mainScreenUseCases.addCoursesToDbUseCase(state.value.allCourses.map { it.toCourseEntity() })
+            mainScreenUseCases.addCoursesToDbUseCase(state.value.allCourses)
         }
     }
 
@@ -67,7 +71,7 @@ class MainViewModel @Inject constructor(
                 is Resource.Success -> {
                     val courses = result.data?.map { it.toCourse() } ?: emptyList()
                     _state.value = _state.value.copy(
-                        allCourses = courses,
+                        allCourses = result.data ?: emptyList(),
                         mondayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[0] },
                         tuesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[1] },
                         wednesdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[2] },
@@ -76,6 +80,7 @@ class MainViewModel @Inject constructor(
                         saturdayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[0] },
                         sundayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[1] }
                     )
+                    //when we don't have any courses in database
                     if(_state.value.allCourses.isEmpty())
                         getAllCoursesApi()
                     else _state.value = _state.value.copy(isLoading = false)

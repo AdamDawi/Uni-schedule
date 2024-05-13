@@ -1,10 +1,11 @@
 package com.example.unischedule.presentation.main_screen
 
 import com.example.unischedule.domain.model.Course
+import com.example.unischedule.domain.model.CourseEntity
 
 data class MainState(
     val isLoading: Boolean = false,
-    val allCourses: List<Course> = emptyList(),
+    val allCourses: List<CourseEntity> = emptyList(),
     val mondayCourses: List<Course> = emptyList(),
     val tuesdayCourses: List<Course> = emptyList(),
     val wednesdayCourses: List<Course> = emptyList(),

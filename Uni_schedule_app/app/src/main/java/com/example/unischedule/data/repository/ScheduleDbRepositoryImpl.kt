@@ -15,4 +15,8 @@ class ScheduleDbRepositoryImpl(
     override fun getAllCourses(): Flow<List<CourseEntity>> {
         return scheduleDao.getAllCourses()
     }
+
+    override suspend fun deleteCourses(courses: List<CourseEntity>) {
+        scheduleDao.deleteCourses(courses)
+    }
 }

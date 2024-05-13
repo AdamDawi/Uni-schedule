@@ -7,4 +7,6 @@ interface ScheduleDbRepository {
     suspend fun addCourses(courses: List<CourseEntity>)
 
     fun getAllCourses(): Flow<List<CourseEntity>>
+
+    suspend fun deleteCourses(courses: List<CourseEntity>)
 }

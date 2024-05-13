@@ -11,6 +11,7 @@ import com.example.unischedule.data.repository.ScheduleDbRepositoryImpl
 import com.example.unischedule.domain.repository.ScheduleApiRepository
 import com.example.unischedule.domain.repository.ScheduleDbRepository
 import com.example.unischedule.domain.use_case.AddCoursesToDbUseCase
+import com.example.unischedule.domain.use_case.DeleteAllCoursesDbUseCase
 import com.example.unischedule.domain.use_case.GetAllCoursesDbUseCase
 import com.example.unischedule.domain.use_case.GetAllCoursesApiUseCase
 import com.example.unischedule.domain.use_case.MainScreenUseCases
@@ -59,6 +60,7 @@ object AppModule {
             ScheduleDatabase::class.java,
             Constants.COURSES_TABLE_NAME
         ).build()
+
     }
     @Provides
     @Singleton
@@ -80,11 +82,18 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideDeleteAllCoursesDbUseCase(repository: ScheduleDbRepository): DeleteAllCoursesDbUseCase{
+        return DeleteAllCoursesDbUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun MainScreenUseCases(repositoryDb: ScheduleDbRepository, repositoryApi: ScheduleApiRepository): MainScreenUseCases {
         return MainScreenUseCases(
             AddCoursesToDbUseCase(repositoryDb),
             GetAllCoursesDbUseCase(repositoryDb),
-            GetAllCoursesApiUseCase(repositoryApi)
+            GetAllCoursesApiUseCase(repositoryApi),
+            DeleteAllCoursesDbUseCase(repositoryDb)
         )
     }
 }

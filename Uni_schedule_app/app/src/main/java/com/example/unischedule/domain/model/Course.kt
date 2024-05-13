@@ -20,8 +20,9 @@ fun Course.formattedTime(): String{
     return "${startTime/60}:$minutesStartTime - ${endTime/60}:$minutesEndTime"
 }
 
-fun Course.toCourseEntity(): CourseEntity{
+fun Course.toCourseEntity(i: Int): CourseEntity{
     return CourseEntity(
+        id = i,
         name = name,
         startTime = startTime,
         endTime = endTime,
