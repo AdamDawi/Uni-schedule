@@ -6,9 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,15 +39,17 @@ fun MainScreen(
     val state = viewModel.state.value
     var isAlertDialogOpen by remember { mutableStateOf(false) }
     var textInAlertDialog by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             TopScheduleBar(
                 onRefreshClick = { viewModel.getAllCoursesApi()},
-                onSettingsClick = { isAlertDialogOpen = true}
+                onSettingsClick = { isAlertDialogOpen = true},
+                state
             )
         }
     ) {
-        if(state.isLoading){
+        if(state.isLoading && state.allCourses.isEmpty()){
             Column(modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
@@ -65,6 +72,55 @@ fun MainScreen(
                     textAlign = TextAlign.Center
                 )
             }
+        }else if(state.linkToSchedule.isEmpty()){
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .background(BackgroundColor),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    modifier = Modifier.padding(12.dp),
+                    text = "Podaj link",
+                    color = Color.Black,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center
+                )
+                OutlinedTextField(
+                    shape = RoundedCornerShape(12.dp),
+                    value = textInAlertDialog,
+                    onValueChange = { text -> textInAlertDialog = text},
+                    maxLines = 2,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = Color.White,
+                        cursorColor = Color.Black,
+                        focusedTextColor = Color.Black,
+                        focusedBorderColor = Color.Black,
+                        unfocusedBorderColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        unfocusedPlaceholderColor = Color.Gray,
+                        errorCursorColor = Color.Black
+                    ),
+                    placeholder = {
+                        Text(
+                            text = "http://planwe.pollub.pl/plan.php?type=example",
+                            color = Color.Gray
+                        )
+                    }
+                )
+                TextButton(
+                    onClick = {
+                        viewModel.setLink(textInAlertDialog)
+                        viewModel.getAllCoursesApi()
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
+                ) {
+                    Text("Confirm")
+                }
+            }
+
         }else{
             MainContent(
                 modifier = Modifier.padding(it),
@@ -79,6 +135,8 @@ fun MainScreen(
                         textInAlertDialog = ""
                     },
                     onConfirmation = {
+                        viewModel.setLink(textInAlertDialog)
+                        viewModel.getAllCoursesApi()
                         isAlertDialogOpen = false
                         textInAlertDialog = ""
                     },

@@ -31,7 +31,7 @@ fun InfoDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),
+                .height(180.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(

@@ -6,7 +6,7 @@ import com.example.unischedule.domain.model.Course
 
 
 object Constants {
-    const val BASE_URL = "https://uni-schedule-rest-api.onrender.com/"
+    const val BASE_URL = "https://uni-schedule-rest-api.onrender.com/?url="
     val FULL_TIME_STUDIES_DAYS_LIST = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
     val PART_TIME_STUDIES_DAYS_LIST = listOf("Saturday", "Sunday")
     val DUMMY_LIST_OF_MONDAY = listOf(

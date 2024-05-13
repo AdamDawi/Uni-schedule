@@ -12,10 +12,10 @@ import javax.inject.Inject
 class GetAllCoursesApiUseCase@Inject constructor(
     private val repository: ScheduleApiRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Course>>> = flow{
+    operator fun invoke(link: String): Flow<Resource<List<Course>>> = flow{
         try {
             emit(Resource.Loading())
-            val courses = repository.getCourses().courses.map { it.toCourse() }
+            val courses = repository.getCourses(link).courses.map { it.toCourse() }
             emit(Resource.Success(courses))
         }catch (e: IOException){
             emit(Resource.Error("Couldn't reach server. Check your internet connection."))

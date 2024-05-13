@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    //for data store
+    implementation(libs.androidx.datastore)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     //for pager
     implementation(libs.google.accompanist.pager)
     implementation(libs.google.accompanist.pager.indicators)

@@ -37,7 +37,7 @@ import com.google.accompanist.pager.rememberPagerState
 val HOURS_SIZE = 70.dp
 const val NUMBER_OF_HOURS = 14 //8:00 - 21:00
 val PADDING_TO_CENTER_FIXED_HOURS = 9.dp //vertically center
-val RED_LINE_FOR_CURRENT_TIME_HEIGHT = 13.dp
+val RED_LINE_FOR_CURRENT_TIME_HEIGHT = 9.dp
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainContent(

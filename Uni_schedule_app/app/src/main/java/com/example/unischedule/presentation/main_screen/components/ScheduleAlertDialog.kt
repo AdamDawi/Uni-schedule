@@ -1,13 +1,12 @@
 package com.example.unischedule.presentation.main_screen.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +17,7 @@ import com.example.unischedule.ui.theme.BackgroundColor
 
 @Composable
 fun ScheduleAlertDialog(
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -25,37 +25,21 @@ fun ScheduleAlertDialog(
     text: () -> String
 ) {
     AlertDialog(
+        modifier = modifier
+            .padding(12.dp),
         title = {
             Text(
                 textAlign = TextAlign.Center,
                 text = dialogTitle,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 22.sp
+                fontSize = 20.sp
             )
         },
         text = {
-            OutlinedTextField(
-                shape = RoundedCornerShape(12.dp),
-                value = text(),
-                onValueChange = { onValueChange(it)},
-                maxLines = 2,
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    focusedContainerColor = Color.White,
-                    cursorColor = Color.Black,
-                    focusedTextColor = Color.Black,
-                    focusedBorderColor = Color.Black,
-                    unfocusedBorderColor = Color.Black,
-                    unfocusedTextColor = Color.Black,
-                    unfocusedPlaceholderColor = Color.Gray,
-                    errorCursorColor = Color.Black
-                ),
-                placeholder = {
-                    Text(
-                        text = "http://planwe.pollub.pl/plan.php?type=example",
-                        color = Color.Gray
-                    )
-                }
+            CustomTextField(
+                text = text,
+                placeholderText = "http://planwe.pollub.pl/plan.php?type=example",
+                onValueChange = onValueChange
             )
         },
         onDismissRequest = {
