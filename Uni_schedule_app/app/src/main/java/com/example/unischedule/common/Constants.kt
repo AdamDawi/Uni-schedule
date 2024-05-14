@@ -37,4 +37,15 @@ object Constants {
         Course("Podstawy inżynierii oprogramowania, lab", startTime = 855, endTime = 960, color = Color(rgb(233, 255, 233))),
     )
     const val COURSES_TABLE_NAME = "schedule_table"
+    const val LINK_PLACEHOLDER = "http://planwe.pollub.pl/plan.php?type=example"
+}
+
+fun Color.darkerColor(): Color{
+    return Color(
+        rgb(
+            this.red * 0.9f,
+            this.green * 0.9f,
+            this.blue * 0.9f
+        )
+    )
 }

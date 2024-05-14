@@ -1,6 +1,7 @@
 package com.example.unischedule.presentation.main_screen.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -13,10 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.unischedule.common.Constants
 import com.example.unischedule.ui.theme.BackgroundColor
 
 @Composable
-fun ScheduleAlertDialog(
+fun AlertDialogToWriteLink(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
@@ -27,6 +29,7 @@ fun ScheduleAlertDialog(
     AlertDialog(
         modifier = modifier
             .padding(12.dp),
+        shape = RoundedCornerShape(16.dp),
         title = {
             Text(
                 textAlign = TextAlign.Center,
@@ -38,7 +41,7 @@ fun ScheduleAlertDialog(
         text = {
             CustomTextField(
                 text = text,
-                placeholderText = "http://planwe.pollub.pl/plan.php?type=example",
+                placeholderText = Constants.LINK_PLACEHOLDER,
                 onValueChange = onValueChange
             )
         },
@@ -62,7 +65,10 @@ fun ScheduleAlertDialog(
                 },
                 colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
             ) {
-                Text("Cancel")
+                Text(
+                    "Cancel",
+                    color = Color.Red
+                )
             }
         },
         containerColor = BackgroundColor,
@@ -74,7 +80,7 @@ fun ScheduleAlertDialog(
 @Preview
 @Composable
 private fun ScheduleAlertDialogPreview() {
-    ScheduleAlertDialog(
+    AlertDialogToWriteLink(
         onDismissRequest = {  },
         onConfirmation = {  },
         dialogTitle = "Write your link to schedule",
@@ -86,7 +92,7 @@ private fun ScheduleAlertDialogPreview() {
 @Preview
 @Composable
 private fun ScheduleAlertDialogLongTextPreview() {
-    ScheduleAlertDialog(
+    AlertDialogToWriteLink(
         onDismissRequest = {  },
         onConfirmation = {  },
         dialogTitle = "Write your link to schedule",
@@ -98,7 +104,7 @@ private fun ScheduleAlertDialogLongTextPreview() {
 @Preview
 @Composable
 private fun ScheduleAlertDialogWithoutTextPreview() {
-    ScheduleAlertDialog(
+    AlertDialogToWriteLink(
         onDismissRequest = {  },
         onConfirmation = {  },
         dialogTitle = "Write your link to schedule",

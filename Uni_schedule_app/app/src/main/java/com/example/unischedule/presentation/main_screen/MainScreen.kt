@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,8 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.unischedule.common.Constants
+import com.example.unischedule.presentation.main_screen.components.CustomTextField
 import com.example.unischedule.presentation.main_screen.components.MainContent
-import com.example.unischedule.presentation.main_screen.components.ScheduleAlertDialog
+import com.example.unischedule.presentation.main_screen.components.AlertDialogToWriteLink
 import com.example.unischedule.presentation.main_screen.components.TopScheduleBar
 import com.example.unischedule.ui.theme.BackgroundColor
 
@@ -49,6 +47,7 @@ fun MainScreen(
             )
         }
     ) {
+        //screen for loading and optionally displaying error
         if(state.isLoading && state.allCourses.isEmpty()){
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -72,6 +71,7 @@ fun MainScreen(
                     textAlign = TextAlign.Center
                 )
             }
+            //screen for writing link for the first time
         }else if(state.linkToSchedule.isEmpty()){
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -82,45 +82,28 @@ fun MainScreen(
             ){
                 Text(
                     modifier = Modifier.padding(12.dp),
-                    text = "Podaj link",
+                    text = "Write your link to schedule",
                     color = Color.Black,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center
                 )
-                OutlinedTextField(
-                    shape = RoundedCornerShape(12.dp),
-                    value = textInAlertDialog,
+                CustomTextField(
+                    text = {textInAlertDialog},
                     onValueChange = { text -> textInAlertDialog = text},
-                    maxLines = 2,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White,
-                        focusedContainerColor = Color.White,
-                        cursorColor = Color.Black,
-                        focusedTextColor = Color.Black,
-                        focusedBorderColor = Color.Black,
-                        unfocusedBorderColor = Color.Black,
-                        unfocusedTextColor = Color.Black,
-                        unfocusedPlaceholderColor = Color.Gray,
-                        errorCursorColor = Color.Black
-                    ),
-                    placeholder = {
-                        Text(
-                            text = "http://planwe.pollub.pl/plan.php?type=example",
-                            color = Color.Gray
-                        )
-                    }
+                    placeholderText = Constants.LINK_PLACEHOLDER
                 )
                 TextButton(
                     onClick = {
                         viewModel.setLink(textInAlertDialog)
                         viewModel.getAllCoursesApi()
+                        textInAlertDialog = ""
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
                 ) {
                     Text("Confirm")
                 }
             }
-
+            //main screen with schedule
         }else{
             MainContent(
                 modifier = Modifier.padding(it),
@@ -129,7 +112,7 @@ fun MainScreen(
                 viewModel
             )
             if(isAlertDialogOpen)
-                ScheduleAlertDialog(
+                AlertDialogToWriteLink(
                     onDismissRequest = {
                         isAlertDialogOpen = false
                         textInAlertDialog = ""

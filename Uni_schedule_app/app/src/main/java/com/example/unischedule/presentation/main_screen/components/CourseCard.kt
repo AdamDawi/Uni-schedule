@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.unischedule.common.darkerColor
 import com.example.unischedule.domain.model.Course
 
 
@@ -31,11 +32,7 @@ fun CourseCard(
     modifier: Modifier = Modifier,
     course: Course,
 ) {
-    val darkerColor = Color(rgb(
-        course.color.red * 0.9f,
-        course.color.green * 0.9f,
-        course.color.blue * 0.9f
-    ))
+    val darkerColor = course.color.darkerColor()
     val openInfoDialog = remember { mutableStateOf(false) }
     Box(
         modifier = modifier
@@ -63,7 +60,7 @@ fun CourseCard(
             }
         }
         if(openInfoDialog.value){
-            InfoDialog(
+            InfoDialogWithCourseDetails(
                 course = course,
                 onDismissRequest = {openInfoDialog.value = false}
             )

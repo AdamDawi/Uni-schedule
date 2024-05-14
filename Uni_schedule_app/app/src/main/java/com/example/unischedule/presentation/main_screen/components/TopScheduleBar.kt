@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.unischedule.presentation.main_screen.MainState
 import com.example.unischedule.ui.theme.BackgroundColor
 
@@ -80,4 +81,15 @@ fun TopScheduleBar(
             }
         }
     )
+}
+
+@Preview
+@Composable
+private fun TopScheduleBarPreview() {
+    TopScheduleBar(
+        onRefreshClick = { },
+        onSettingsClick = { },
+        state = MainState()
+    )
+
 }
