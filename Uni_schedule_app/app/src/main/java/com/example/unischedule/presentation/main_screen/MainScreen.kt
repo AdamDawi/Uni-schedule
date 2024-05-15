@@ -1,5 +1,6 @@
 package com.example.unischedule.presentation.main_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +41,7 @@ fun MainScreen(
     val state = viewModel.state.value
     var isAlertDialogOpen by remember { mutableStateOf(false) }
     var textInAlertDialog by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -106,6 +110,10 @@ fun MainScreen(
             }
             //main screen with schedule
         }else{
+            LaunchedEffect(state.isLoading) {
+                if(!state.isLoading && state.errorMessage.isEmpty()) Toast.makeText(context, "Successfully loaded schedule", Toast.LENGTH_SHORT).show()
+                else if(state.errorMessage.isNotEmpty()) Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
+            }
             if(state.isFullTimeStudies){
                 MainContentFullTime(
                     modifier = Modifier.padding(it),
