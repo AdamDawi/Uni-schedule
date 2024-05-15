@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Tab
-import androidx.compose.material.Text
+import androidx.compose.material.Divider
 import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,31 +32,37 @@ fun ScrollableDayTabs(
 ) {
     val coroutineScope = rememberCoroutineScope()
     ScrollableTabRow(
-        modifier = modifier
+        modifier = Modifier
             .height(50.dp)
             .fillMaxWidth(),
         selectedTabIndex = pagerState.currentPage,
         indicator = indicator,
         backgroundColor = BackgroundColor,
-        edgePadding = 0.dp
+        edgePadding = 0.dp,
+        divider = {
+            Divider(modifier = Modifier.fillMaxWidth())
+        }
     ) {
         daysList.forEachIndexed { index, title ->
             key(index) {
-                Tab(modifier = Modifier
+                Tab(modifier = modifier
                     .padding(4.dp)
                     .clip(RoundedCornerShape(50))
-                    .zIndex(6f), text = {
+                    .zIndex(6f),
+                    text = {
                     Text(
                         text = title,
                         color = if (pagerState.currentPage == index) Color.White else Color.Black
                     )
-                }, selected = pagerState.currentPage == index, onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                }, selectedContentColor = Color.DarkGray
-                )
+                    }, selected = pagerState.currentPage == index, onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    }, selectedContentColor = Color.DarkGray
+                    )
+                }
             }
-        }
+
+
     }
 }

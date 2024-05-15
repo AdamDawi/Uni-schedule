@@ -1,6 +1,5 @@
 package com.example.unischedule.presentation.main_screen.components
 
-import android.icu.util.Calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +39,7 @@ val PADDING_TO_CENTER_FIXED_HOURS = 9.dp //vertically center
 val RED_LINE_FOR_CURRENT_TIME_HEIGHT = 9.dp
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainContent(
+fun MainContentFullTime(
     modifier: Modifier = Modifier,
     daysList: List<String>,
     state: MainState,
@@ -50,14 +49,14 @@ fun MainContent(
     val indicator = @Composable { tabPositions: List<TabPosition> ->
         AnimatedTabIndicator(tabPositions, pagerState)
     }
-    val currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+
     var isPagerInitialized by remember { mutableStateOf(false) }
     val lazyListState = rememberLazyListState()
 
-    LaunchedEffect(currentDayOfWeek) {
-        if (currentDayOfWeek != 1 && currentDayOfWeek != 7 && !isPagerInitialized) {
+    LaunchedEffect(state.currentDayOfWeek) {
+        if (state.currentDayOfWeek != 1 && state.currentDayOfWeek != 7 && !isPagerInitialized) {
             isPagerInitialized = true
-            pagerState.scrollToPage(currentDayOfWeek - 2)
+            pagerState.scrollToPage(state.currentDayOfWeek - 2)
             //when time is above 17:00 scroll to next part of the plan
             if(viewModel.getCurrentTimeInMinutes()>=960)
                 lazyListState.scrollToItem(0, scrollOffset = ((viewModel.getCurrentTimeInMinutes()) / 60f * HOURS_SIZE).value.toInt())
@@ -98,7 +97,7 @@ fun MainContent(
                             0 -> {
                                 DailyScheduleLayout(courseList = state.mondayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(currentDayOfWeek==2) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==2) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -120,7 +119,7 @@ fun MainContent(
                             1 -> {
                                 DailyScheduleLayout(courseList = state.tuesdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(currentDayOfWeek==3) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==3) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -143,7 +142,7 @@ fun MainContent(
                             2 -> {
                                 DailyScheduleLayout(courseList = state.wednesdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(currentDayOfWeek==4) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==4) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -166,7 +165,7 @@ fun MainContent(
                             3 -> {
                                 DailyScheduleLayout(courseList = state.thursdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(currentDayOfWeek==5) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==5) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -189,7 +188,7 @@ fun MainContent(
                             4 -> {
                                 DailyScheduleLayout(courseList = state.fridayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(currentDayOfWeek==6) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==6) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)

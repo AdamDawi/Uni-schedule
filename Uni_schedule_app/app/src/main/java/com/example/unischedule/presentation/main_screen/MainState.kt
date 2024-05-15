@@ -14,5 +14,7 @@ data class MainState(
     val saturdayCourses: List<Course> = emptyList(),
     val sundayCourses: List<Course> = emptyList(),
     val errorMessage: String = "",
-    val linkToSchedule: String = ""
+    val linkToSchedule: String = "",
+    val currentDayOfWeek: Int = 0, //1 - Sunday 2 - Monday ... 7 - Saturday
+    val isFullTimeStudies: Boolean = true //
 )

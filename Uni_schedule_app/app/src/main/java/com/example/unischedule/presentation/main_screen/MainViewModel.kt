@@ -27,7 +27,9 @@ class MainViewModel @Inject constructor(
     private val _state = mutableStateOf(MainState())
     val state: State<MainState> = _state
     init {
+        getCurrentDayOfWeek()
         getLinkFromDataStore()
+
     }
     fun setLink(newLink: String){
         viewModelScope.launch {
@@ -87,7 +89,10 @@ class MainViewModel @Inject constructor(
                         thursdayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[3] },
                         fridayCourses = courses.filter { it.dayOfWeek==Constants.FULL_TIME_STUDIES_DAYS_LIST[4] },
                         saturdayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[0] },
-                        sundayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[1] }
+                        sundayCourses = courses.filter { it.dayOfWeek==Constants.PART_TIME_STUDIES_DAYS_LIST[1] },
+                    )
+                    _state.value = _state.value.copy(
+                        isFullTimeStudies = _state.value.saturdayCourses.isEmpty() && _state.value.sundayCourses.isEmpty()
                     )
                     //when we don't have any courses in database
                     if(_state.value.allCourses.isEmpty())
@@ -108,5 +113,9 @@ class MainViewModel @Inject constructor(
         val currentMinute = Calendar.getInstance().get(Calendar.MINUTE)
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         return currentHour*60+currentMinute
+    }
+
+    private fun getCurrentDayOfWeek(){
+        _state.value = _state.value.copy(currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
     }
 }

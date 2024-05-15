@@ -25,8 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.unischedule.common.Constants
 import com.example.unischedule.presentation.main_screen.components.CustomTextField
-import com.example.unischedule.presentation.main_screen.components.MainContent
+import com.example.unischedule.presentation.main_screen.components.MainContentFullTime
 import com.example.unischedule.presentation.main_screen.components.AlertDialogToWriteLink
+import com.example.unischedule.presentation.main_screen.components.MainContentPartTime
 import com.example.unischedule.presentation.main_screen.components.TopScheduleBar
 import com.example.unischedule.ui.theme.BackgroundColor
 
@@ -105,12 +106,22 @@ fun MainScreen(
             }
             //main screen with schedule
         }else{
-            MainContent(
-                modifier = Modifier.padding(it),
-                daysList = Constants.FULL_TIME_STUDIES_DAYS_LIST,
+            if(state.isFullTimeStudies){
+                MainContentFullTime(
+                    modifier = Modifier.padding(it),
+                    daysList = Constants.FULL_TIME_STUDIES_DAYS_LIST,
                 state,
                 viewModel
-            )
+                )
+            }else{
+                MainContentPartTime(
+                    modifier = Modifier.padding(it),
+                    daysList = Constants.PART_TIME_STUDIES_DAYS_LIST,
+                    state,
+                    viewModel
+                )
+            }
+
             if(isAlertDialogOpen)
                 AlertDialogToWriteLink(
                     onDismissRequest = {
