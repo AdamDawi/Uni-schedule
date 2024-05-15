@@ -69,7 +69,8 @@ fun MainContentPartTime(
                 modifier = Modifier.width(220.dp),
                 pagerState = pagerState,
                 indicator = indicator,
-                daysList = daysList
+                daysList = daysList,
+                state = state
             )
             LazyColumn(
                 modifier = Modifier

@@ -68,7 +68,8 @@ fun MainContentFullTime(
         ScrollableDayTabs(
             pagerState = pagerState,
             indicator = indicator,
-            daysList = daysList
+            daysList = daysList,
+            state = state
         )
         LazyColumn(
             modifier = Modifier
