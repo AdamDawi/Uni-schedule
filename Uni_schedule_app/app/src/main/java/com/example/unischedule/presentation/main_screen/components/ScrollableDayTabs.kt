@@ -65,10 +65,9 @@ fun ScrollableDayTabs(
                                 if(pagerState.currentPage != index){
                                     Box(
                                         modifier = Modifier
-                                            .size(12.dp)
+                                            .size(8.dp)
                                             .clip(CircleShape)
                                             .background(Color.Red)
-
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                 }

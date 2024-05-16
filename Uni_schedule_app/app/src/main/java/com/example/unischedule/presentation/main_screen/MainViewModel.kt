@@ -31,11 +31,18 @@ class MainViewModel @Inject constructor(
         getLinkFromDataStore()
 
     }
-    fun setLink(newLink: String){
+    fun setLink(newLink: String): Int{
+        //validation
+        val linkPattern = Regex("""^http://planwe\.pollub\.pl/plan\.php\?type=\d&id=\d+(&winW=\d+&winH=\d+&loadBG=\d{6})?$""")
+        if (linkPattern.matches(newLink)) {
         viewModelScope.launch {
+
             session.setLink(newLink)
             _state.value = _state.value.copy(linkToSchedule = newLink)
-        }
+            getAllCoursesApi()
+            }
+        }else return -1
+        return 1
     }
     private fun getLinkFromDataStore() {
         viewModelScope.launch {

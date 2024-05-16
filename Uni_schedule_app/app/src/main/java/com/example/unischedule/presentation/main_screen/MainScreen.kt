@@ -99,8 +99,11 @@ fun MainScreen(
                 )
                 TextButton(
                     onClick = {
-                        viewModel.setLink(textInAlertDialog)
-                        viewModel.getAllCoursesApi()
+                        if(viewModel.setLink(textInAlertDialog)==-1){
+                            Toast.makeText(context, "Invalid link", Toast.LENGTH_LONG).show()
+                        }
+
+
                         textInAlertDialog = ""
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
@@ -137,8 +140,9 @@ fun MainScreen(
                         textInAlertDialog = ""
                     },
                     onConfirmation = {
-                        viewModel.setLink(textInAlertDialog)
-                        viewModel.getAllCoursesApi()
+                        if(viewModel.setLink(textInAlertDialog)==-1){
+                            Toast.makeText(context, "Invalid link", Toast.LENGTH_LONG).show()
+                        }
                         isAlertDialogOpen = false
                         textInAlertDialog = ""
                     },
