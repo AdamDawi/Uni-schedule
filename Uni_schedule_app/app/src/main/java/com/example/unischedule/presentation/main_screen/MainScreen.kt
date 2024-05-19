@@ -1,6 +1,5 @@
 package com.example.unischedule.presentation.main_screen
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,15 +19,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.unischedule.common.Constants
+import com.example.unischedule.presentation.main_screen.components.AlertDialogToWriteLink
 import com.example.unischedule.presentation.main_screen.components.CustomTextField
 import com.example.unischedule.presentation.main_screen.components.MainContentFullTime
-import com.example.unischedule.presentation.main_screen.components.AlertDialogToWriteLink
 import com.example.unischedule.presentation.main_screen.components.MainContentPartTime
 import com.example.unischedule.presentation.main_screen.components.TopScheduleBar
 import com.example.unischedule.ui.theme.BackgroundColor
@@ -41,7 +38,6 @@ fun MainScreen(
     val state = viewModel.state.value
     var isAlertDialogOpen by remember { mutableStateOf(false) }
     var textInAlertDialog by remember { mutableStateOf("") }
-    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -99,11 +95,7 @@ fun MainScreen(
                 )
                 TextButton(
                     onClick = {
-                        if(viewModel.setLink(textInAlertDialog)==-1){
-                            Toast.makeText(context, "Invalid link", Toast.LENGTH_LONG).show()
-                        }
-
-
+                        viewModel.setLink(textInAlertDialog)
                         textInAlertDialog = ""
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
@@ -113,10 +105,6 @@ fun MainScreen(
             }
             //main screen with schedule
         }else{
-            LaunchedEffect(state.isLoading) {
-                if(!state.isLoading && state.errorMessage.isEmpty()) Toast.makeText(context, "Successfully loaded schedule", Toast.LENGTH_SHORT).show()
-                else if(state.errorMessage.isNotEmpty()) Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
-            }
             if(state.isFullTimeStudies){
                 MainContentFullTime(
                     modifier = Modifier.padding(it),
@@ -132,7 +120,6 @@ fun MainScreen(
                     viewModel
                 )
             }
-
             if(isAlertDialogOpen)
                 AlertDialogToWriteLink(
                     onDismissRequest = {
@@ -140,9 +127,7 @@ fun MainScreen(
                         textInAlertDialog = ""
                     },
                     onConfirmation = {
-                        if(viewModel.setLink(textInAlertDialog)==-1){
-                            Toast.makeText(context, "Invalid link", Toast.LENGTH_LONG).show()
-                        }
+                        viewModel.setLink(textInAlertDialog)
                         isAlertDialogOpen = false
                         textInAlertDialog = ""
                     },

@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.presentation.main_screen.MainState
 import com.example.unischedule.presentation.main_screen.MainViewModel
 import com.example.unischedule.ui.theme.BackgroundColor
@@ -54,9 +55,9 @@ fun MainContentFullTime(
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(state.currentDayOfWeek) {
-        if (state.currentDayOfWeek != 1 && state.currentDayOfWeek != 7 && !isPagerInitialized) {
+        if (state.currentDayOfWeek != DayOfWeek.SUNDAY && state.currentDayOfWeek != DayOfWeek.SATURDAY && !isPagerInitialized) {
             isPagerInitialized = true
-            pagerState.scrollToPage(state.currentDayOfWeek - 2)
+            pagerState.scrollToPage(state.currentDayOfWeek.ordinal - 1)
             //when time is above 17:00 scroll to next part of the plan
             if(viewModel.getCurrentTimeInMinutes()>=960)
                 lazyListState.scrollToItem(0, scrollOffset = ((viewModel.getCurrentTimeInMinutes()) / 60f * HOURS_SIZE).value.toInt())
@@ -98,7 +99,7 @@ fun MainContentFullTime(
                             0 -> {
                                 DailyScheduleLayout(courseList = state.mondayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(state.currentDayOfWeek==2) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==DayOfWeek.MONDAY) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -120,7 +121,7 @@ fun MainContentFullTime(
                             1 -> {
                                 DailyScheduleLayout(courseList = state.tuesdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(state.currentDayOfWeek==3) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==DayOfWeek.TUESDAY) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -143,7 +144,7 @@ fun MainContentFullTime(
                             2 -> {
                                 DailyScheduleLayout(courseList = state.wednesdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(state.currentDayOfWeek==4) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==DayOfWeek.WEDNESDAY) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -166,7 +167,7 @@ fun MainContentFullTime(
                             3 -> {
                                 DailyScheduleLayout(courseList = state.thursdayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(state.currentDayOfWeek==5) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==DayOfWeek.THURSDAY) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)
@@ -189,7 +190,7 @@ fun MainContentFullTime(
                             4 -> {
                                 DailyScheduleLayout(courseList = state.fridayCourses, viewModel = viewModel) {
                                     Row(modifier = Modifier
-                                        .alpha(if(state.currentDayOfWeek==6) 1f else 0f),
+                                        .alpha(if(state.currentDayOfWeek==DayOfWeek.FRIDAY) 1f else 0f),
                                         verticalAlignment = Alignment.CenterVertically) {
                                         Box(modifier = Modifier
                                             .size(RED_LINE_FOR_CURRENT_TIME_HEIGHT)

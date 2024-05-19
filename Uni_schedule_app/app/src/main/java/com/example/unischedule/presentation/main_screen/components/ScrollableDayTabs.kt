@@ -61,7 +61,7 @@ fun ScrollableDayTabs(
                     .zIndex(6f),
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            if(state.currentDayOfWeek-2==index){
+                            if(state.currentDayOfWeek.ordinal-1==index){
                                 if(pagerState.currentPage != index){
                                     Box(
                                         modifier = Modifier

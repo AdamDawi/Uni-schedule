@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.presentation.main_screen.MainState
 import com.example.unischedule.presentation.main_screen.MainViewModel
 import com.example.unischedule.ui.theme.BackgroundColor
@@ -53,9 +54,9 @@ fun MainContentPartTime(
         LaunchedEffect(state.currentDayOfWeek) {
             if (!isPagerInitialized) {
                 isPagerInitialized = true
-                if(state.currentDayOfWeek==0)
+                if(state.currentDayOfWeek== DayOfWeek.SATURDAY)
                     pagerState.scrollToPage( 0)
-                else if(state.currentDayOfWeek==7)
+                else if(state.currentDayOfWeek==DayOfWeek.SUNDAY)
                     pagerState.scrollToPage( 1)
                 //when time is above 17:00 scroll to next part of the plan
                 if(viewModel.getCurrentTimeInMinutes()>=960)
@@ -103,7 +104,7 @@ fun MainContentPartTime(
                                     ) {
                                         Row(
                                             modifier = Modifier
-                                                .alpha(if (state.currentDayOfWeek == 1) 1f else 0f),
+                                                .alpha(if (state.currentDayOfWeek == DayOfWeek.SATURDAY) 1f else 0f),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Box(
@@ -132,7 +133,7 @@ fun MainContentPartTime(
                                     ) {
                                         Row(
                                             modifier = Modifier
-                                                .alpha(if (state.currentDayOfWeek == 7) 1f else 0f),
+                                                .alpha(if (state.currentDayOfWeek == DayOfWeek.SUNDAY) 1f else 0f),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Box(

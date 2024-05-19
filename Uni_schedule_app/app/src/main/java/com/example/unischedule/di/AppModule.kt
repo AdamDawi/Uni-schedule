@@ -39,6 +39,10 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
+
+    @Singleton
+    @Provides
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
             corruptionHandler = ReplaceFileCorruptionHandler(produceNewData = { emptyPreferences() }),

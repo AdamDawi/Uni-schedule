@@ -1,5 +1,6 @@
 package com.example.unischedule.presentation.main_screen
 
+import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.domain.model.Course
 import com.example.unischedule.domain.model.CourseEntity
 
@@ -15,6 +16,6 @@ data class MainState(
     val sundayCourses: List<Course> = emptyList(),
     val errorMessage: String = "",
     val linkToSchedule: String = "",
-    val currentDayOfWeek: Int = 0, //1 - Sunday 2 - Monday ... 7 - Saturday
+    val currentDayOfWeek: DayOfWeek = DayOfWeek.MONDAY, //1 - Sunday 2 - Monday ... 7 - Saturday
     val isFullTimeStudies: Boolean = true //
 )

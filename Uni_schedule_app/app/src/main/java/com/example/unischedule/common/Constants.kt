@@ -40,6 +40,10 @@ object Constants {
     const val LINK_PLACEHOLDER = "http://planwe.pollub.pl/plan.php?type=example"
 }
 
+enum class DayOfWeek {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+}
+
 fun Color.darkerColor(): Color{
     return Color(
         rgb(
