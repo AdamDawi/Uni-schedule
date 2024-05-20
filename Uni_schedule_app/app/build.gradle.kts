@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.unischedule"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -74,6 +74,12 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    //for data store
+    implementation(libs.androidx.datastore)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    //for pager
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicators)
 
     //for hiltViewModel()
     implementation(libs.androidx.hilt.navigation.compose)
