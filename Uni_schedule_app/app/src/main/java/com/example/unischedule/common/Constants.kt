@@ -15,27 +15,6 @@ object Constants {
         Course("Podstawy paradygmatów programowania, lab", startTime = 855, endTime = 945, color = Color(rgb(255, 194, 14))),
         Course("Bezpieczeństwo informacji, lab", startTime = 1005, endTime = 1095, color = Color(rgb(255, 194, 14)))
     )
-    val DUMMY_LIST_OF_TUESDAY: List<Course> = listOf(
-        Course("Technika mikroprocesorowa - tyg.6-15, lab", startTime = 480, endTime = 615, color = Color(rgb(255, 194, 14))),
-        Course("Podstawy techniki cyfrowej - tyg.6-15, lab", startTime = 630, endTime = 765, color = Color(rgb(255, 194, 14)))
-    )
-    val DUMMY_LIST_OF_WEDNESDAY: List<Course> = listOf(
-        Course("Podstawy paradygmatów programowania, wy", startTime = 480, endTime = 570, color = Color(rgb(202, 255, 14))),
-        Course("Podstawy aplikacji internetowych, lab", startTime = 585, endTime = 675, color = Color(rgb(255, 194, 14))),
-        Course("Wychowanie fizyczne II, ćw", startTime = 750, endTime = 840, color = Color(rgb(14, 255, 70))),
-        Course("Język angielski II, lekt", startTime = 855, endTime = 960, color = Color(rgb(255, 87, 252)))
-    )
-    val DUMMY_LIST_OF_THURSDAY: List<Course> = listOf(
-        Course("Podstawy inżynierii oprogramowania, wy", startTime = 495, endTime = 600, color = Color(rgb(202, 255, 14))),
-        Course("Technika mikroprocesorowa, wy", startTime = 615, endTime = 720, color = Color(rgb(202, 255, 14))),
-        Course("Podstawy inżynierii oprogramowania, lab", startTime = 735, endTime = 825, color = Color(rgb(255, 194, 14))),
-        Course("Podstawy grafiki komputerowej, lab", startTime = 825, endTime = 915, color = Color(rgb(255, 194, 14)))
-    )
-    val DUMMY_LIST_OF_FRIDAY: List<Course> = listOf(
-        Course("Podstawy grafiki komputerowej, wy", startTime = 645, endTime = 735, color = Color(rgb(202, 255, 14))),
-        Course("Podstawy aplikacji internetowych, wy", startTime = 750, endTime = 840, color = Color(rgb(202, 255, 14))),
-        Course("Podstawy inżynierii oprogramowania, lab", startTime = 855, endTime = 960, color = Color(rgb(233, 255, 233))),
-    )
     const val COURSES_TABLE_NAME = "schedule_table"
     const val LINK_PLACEHOLDER = "http://planwe.pollub.pl/plan.php?type=example"
 }
