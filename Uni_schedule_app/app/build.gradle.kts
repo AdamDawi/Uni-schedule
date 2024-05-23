@@ -91,6 +91,16 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
 
+    // For AppWidgets support
+    implementation( libs.androidx.glance.appwidget )
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // For interop APIs with Material 2
+    implementation( libs.androidx.glance.material )
+
+    // For interop APIs with Material 3
+    implementation( libs.androidx.glance.material3 )
+
     // Local unit tests
     testImplementation(libs.androidx.core)
     testImplementation(libs.junit)
