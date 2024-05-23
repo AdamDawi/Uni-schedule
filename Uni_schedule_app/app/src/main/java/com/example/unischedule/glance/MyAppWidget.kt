@@ -3,6 +3,7 @@ package com.example.unischedule.glance
 import android.content.Context
 import android.icu.util.Calendar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
@@ -42,7 +43,6 @@ import com.example.unischedule.common.Constants
 import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.common.darkerColor
 import com.example.unischedule.domain.model.Course
-import com.example.unischedule.domain.model.CourseEntity
 import com.example.unischedule.domain.model.formattedTime
 import com.example.unischedule.domain.model.toCourse
 import com.example.unischedule.domain.repository.ScheduleDbRepository
@@ -58,8 +58,7 @@ import java.util.concurrent.TimeUnit
 
 class MyAppWidget : GlanceAppWidget() {
     private val state = mutableStateOf(MainState())
-    private var courses: List<CourseEntity> = emptyList()
-    private var currentCourse: Course? = Course()
+    private var currentCourse: MutableState<Course?> = mutableStateOf(Course())
 
     // a way to get hilt inject what you need in non-supported class
     @EntryPoint
@@ -69,14 +68,14 @@ class MyAppWidget : GlanceAppWidget() {
     }
     companion object {
         private val SMALL_SQUARE = DpSize(100.dp, 100.dp)
-        private val HORIZONTAL_RECTANGLE = DpSize(250.dp, 100.dp)
+        private val MEDIUM_SQUARE = DpSize(150.dp, 150.dp)
         private val BIG_SQUARE = DpSize(250.dp, 250.dp)
     }
 
     override val sizeMode = SizeMode.Responsive(
         setOf(
             SMALL_SQUARE,
-            HORIZONTAL_RECTANGLE,
+            MEDIUM_SQUARE,
             BIG_SQUARE
         )
     )
@@ -132,33 +131,33 @@ class MyAppWidget : GlanceAppWidget() {
             val result = scheduleDbRepository.getAllCourses().first()
                 state.value = state.value.copy(
                     allCourses = result,
-                    mondayCourses = courses.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[0] }
+                    mondayCourses = result.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[0] }
                         .map { it.toCourse() },
-                    tuesdayCourses = courses.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[1] }
+                    tuesdayCourses = result.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[1] }
                         .map { it.toCourse() },
-                    wednesdayCourses = courses.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[2] }
+                    wednesdayCourses = result.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[2] }
                         .map { it.toCourse() },
-                    thursdayCourses = courses.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[3] }
+                    thursdayCourses = result.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[3] }
                         .map { it.toCourse() },
-                    fridayCourses = courses.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[4] }
+                    fridayCourses = result.filter { it.dayOfWeek == Constants.FULL_TIME_STUDIES_DAYS_LIST[4] }
                         .map { it.toCourse() },
-                    saturdayCourses = courses.filter { it.dayOfWeek == Constants.PART_TIME_STUDIES_DAYS_LIST[0] }
+                    saturdayCourses = result.filter { it.dayOfWeek == Constants.PART_TIME_STUDIES_DAYS_LIST[0] }
                         .map { it.toCourse() },
-                    sundayCourses = courses.filter { it.dayOfWeek == Constants.PART_TIME_STUDIES_DAYS_LIST[1] }
+                    sundayCourses = result.filter { it.dayOfWeek == Constants.PART_TIME_STUDIES_DAYS_LIST[1] }
                         .map { it.toCourse() },
                     isLoading = false
                 )
             val currentTimeInMinutes = getCurrentTimeInMinutes()
             var dayOfWeek = getCurrentDayOfWeek()
-            currentCourse = state.value.allCourses
+            currentCourse.value = state.value.allCourses
                 .filter { it.dayOfWeek.equals(dayOfWeek.name, ignoreCase = true) }
                 .filter { it.endTime >= currentTimeInMinutes }
                 .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
 
             //loop to find next courses
-            while (currentCourse == null) {
+            while (currentCourse.value == null) {
                 dayOfWeek = DayOfWeek.entries[(dayOfWeek.ordinal + 1) % DayOfWeek.entries.size]
-                currentCourse = state.value.allCourses
+                currentCourse.value = state.value.allCourses
                     .filter { it.dayOfWeek.equals(DayOfWeek.entries[dayOfWeek.ordinal].name, ignoreCase = true) }
                     .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
             }
@@ -167,8 +166,7 @@ class MyAppWidget : GlanceAppWidget() {
 
             provideContent {
                 // create your AppWidget here
-
-                MyContent(state.value, currentCourse!!)
+                MyContent(state.value, currentCourse.value!!)
             }
 
     }
@@ -212,7 +210,6 @@ class MyAppWidget : GlanceAppWidget() {
                 .background(course.color),
             contentAlignment = Alignment.Center
         ) {
-
             Box{
                 if (course.type.isNotEmpty()) {
                     Row(
@@ -224,7 +221,7 @@ class MyAppWidget : GlanceAppWidget() {
                         Box(
                             modifier = GlanceModifier
                                 .cornerRadius(12.dp)
-                                .padding(12.dp)
+                                .padding( if(size.width <= MEDIUM_SQUARE.width) 8.dp else 12.dp)
                                 .background(darkerColor)
                         ) {
                             Text(
@@ -252,15 +249,17 @@ class MyAppWidget : GlanceAppWidget() {
                             fontWeight = FontWeight.Bold,
                         )
                     )
-//                    if(size.height >= BIG_SQUARE.height) {
-//                        Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(12.dp))
-//                        Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(12.dp))
-//                        Text(text = course.formattedTime(), modifier = GlanceModifier.padding(12.dp))
-//                    }else{
-                        Text(text = course.room.ifEmpty { "No room" })
-                        Text(text = course.leader.ifEmpty { "No leader" })
-                        Text(text = course.formattedTime())
-//                    }
+                    //3 blocks height screen
+                    if(size.height >= BIG_SQUARE.height) {
+                        Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(12.dp))
+                        Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(12.dp))
+                        Text(text = course.formattedTime(), modifier = GlanceModifier.padding(12.dp))
+                    }else {
+                        // Collapsed widget
+                        Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(8.dp))
+                        Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(8.dp))
+                        Text(text = course.formattedTime(), modifier = GlanceModifier.padding(8.dp))
+                    }
                 }
 
             }
