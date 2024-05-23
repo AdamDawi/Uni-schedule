@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit
 class MyAppWidget : GlanceAppWidget() {
     private val state = mutableStateOf(MainState())
     private var courses: List<CourseEntity> = emptyList()
-    private var currentCourse: Course = Course()
+    private var currentCourse: Course? = Course()
 
     // a way to get hilt inject what you need in non-supported class
     @EntryPoint
@@ -148,18 +148,27 @@ class MyAppWidget : GlanceAppWidget() {
                         .map { it.toCourse() },
                     isLoading = false
                 )
-                state.value = state.value.copy(currentDayOfWeek = getCurrentDayOfWeek())
-                val currentTimeInMinutes = getCurrentTimeInMinutes()
+            val currentTimeInMinutes = getCurrentTimeInMinutes()
+            var dayOfWeek = getCurrentDayOfWeek()
+            currentCourse = state.value.allCourses
+                .filter { it.dayOfWeek.equals(dayOfWeek.name, ignoreCase = true) }
+                .filter { it.endTime >= currentTimeInMinutes }
+                .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
+
+            //loop to find next courses
+            while (currentCourse == null) {
+                dayOfWeek = DayOfWeek.entries[(dayOfWeek.ordinal + 1) % DayOfWeek.entries.size]
                 currentCourse = state.value.allCourses
-                    .filter { it.dayOfWeek.equals(getCurrentDayOfWeek().name, ignoreCase = true) }
-                    .filter { it.endTime >= currentTimeInMinutes }
-                    .sortedBy { it.endTime }[0].toCourse()
+                    .filter { it.dayOfWeek.equals(DayOfWeek.entries[dayOfWeek.ordinal].name, ignoreCase = true) }
+                    .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
+            }
+            updateAll(context)
         }
 
             provideContent {
                 // create your AppWidget here
 
-                MyContent(state.value, currentCourse)
+                MyContent(state.value, currentCourse!!)
             }
 
     }
