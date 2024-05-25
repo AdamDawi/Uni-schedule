@@ -2,6 +2,7 @@ package com.example.unischedule.glance
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +60,7 @@ import java.util.concurrent.TimeUnit
 class MyAppWidget : GlanceAppWidget() {
     private val state = mutableStateOf(MainState())
     private var currentCourse: MutableState<Course?> = mutableStateOf(Course())
+
 
     // a way to get hilt inject what you need in non-supported class
     @EntryPoint
@@ -161,6 +163,7 @@ class MyAppWidget : GlanceAppWidget() {
                     .filter { it.dayOfWeek.equals(DayOfWeek.entries[dayOfWeek.ordinal].name, ignoreCase = true) }
                     .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
             }
+            Log.e("course", currentCourse.toString())
             updateAll(context)
         }
 
@@ -209,7 +212,8 @@ class MyAppWidget : GlanceAppWidget() {
                 .cornerRadius(12.dp)
                 .background(course.color),
             contentAlignment = Alignment.Center
-        ) {
+        ) { if(course.name.isNotEmpty() && course.room.isNotEmpty() && course.leader.isNotEmpty()){
+
             Box{
                 if (course.type.isNotEmpty()) {
                     Row(
@@ -253,16 +257,18 @@ class MyAppWidget : GlanceAppWidget() {
                     if(size.height >= BIG_SQUARE.height) {
                         Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(12.dp))
                         Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(12.dp))
-                        Text(text = course.formattedTime(), modifier = GlanceModifier.padding(12.dp))
+                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(12.dp))
                     }else {
                         // Collapsed widget
                         Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(8.dp))
                         Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(8.dp))
-                        Text(text = course.formattedTime(), modifier = GlanceModifier.padding(8.dp))
+                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(8.dp))
                     }
                 }
 
             }
+
+        }
 
         }
     }
@@ -271,6 +277,7 @@ class MyAppWidget : GlanceAppWidget() {
 class UpdateWidgetWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         // Update widget
+        Log.e("update", "update all")
         MyAppWidget().updateAll(applicationContext)
         return Result.success()
     }
