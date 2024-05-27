@@ -61,7 +61,6 @@ class MyAppWidget : GlanceAppWidget() {
     private val state = mutableStateOf(MainState())
     private var currentCourse: MutableState<Course?> = mutableStateOf(Course())
 
-
     // a way to get hilt inject what you need in non-supported class
     @EntryPoint
     @InstallIn(SingletonComponent::class)

@@ -36,7 +36,17 @@ class MainViewModel @Inject constructor(
         getLinkFromDataStore()
 
     }
-    fun setLink(newLink: String){
+    fun onEvent(event: MainEvent){
+        when(event){
+            is MainEvent.OnConfirmScheduleLink ->{
+                setLink(event.newLink)
+            }
+            is MainEvent.OnRefreshClick ->{
+                getAllCoursesApi()
+            }
+        }
+    }
+    private fun setLink(newLink: String){
         //validation
         val linkPattern = Regex("""^http://planwe\.pollub\.pl/plan\.php\?type=\d&id=\d+(&winW=\d+&winH=\d+&loadBG=\d{6})?$""")
         if (linkPattern.matches(newLink)) {
@@ -56,7 +66,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getAllCoursesApi(){
+    private fun getAllCoursesApi(){
         mainScreenUseCases.getAllCoursesApiUseCase(_state.value.linkToSchedule).onEach { result ->
             when(result){
                 is Resource.Success -> {

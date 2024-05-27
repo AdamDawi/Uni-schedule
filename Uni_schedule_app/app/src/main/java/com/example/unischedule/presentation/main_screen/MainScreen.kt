@@ -42,7 +42,7 @@ fun MainScreen(
     Scaffold(
         topBar = {
             TopScheduleBar(
-                onRefreshClick = { viewModel.getAllCoursesApi()},
+                onRefreshClick = { viewModel.onEvent(MainEvent.OnRefreshClick) },
                 onSettingsClick = { isAlertDialogOpen = true},
                 state
             )
@@ -95,7 +95,7 @@ fun MainScreen(
                 )
                 TextButton(
                     onClick = {
-                        viewModel.setLink(textInAlertDialog)
+                        viewModel.onEvent(MainEvent.OnConfirmScheduleLink(textInAlertDialog))
                         textInAlertDialog = ""
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
@@ -127,7 +127,7 @@ fun MainScreen(
                         textInAlertDialog = ""
                     },
                     onConfirmation = {
-                        viewModel.setLink(textInAlertDialog)
+                        viewModel.onEvent(MainEvent.OnConfirmScheduleLink(textInAlertDialog))
                         isAlertDialogOpen = false
                         textInAlertDialog = ""
                     },
