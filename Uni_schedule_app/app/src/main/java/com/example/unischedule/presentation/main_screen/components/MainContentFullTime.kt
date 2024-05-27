@@ -36,6 +36,7 @@ import com.google.accompanist.pager.rememberPagerState
 
 val HOURS_SIZE = 70.dp //size of hours beetween each others
 const val NUMBER_OF_HOURS = 14 //8:00 - 21:00
+const val START_HOUR_OF_DAY_IN_MINUTES = 480 //8:00
 val PADDING_TO_CENTER_FIXED_HOURS = 9.dp //vertically center
 val RED_LINE_FOR_CURRENT_TIME_HEIGHT = 9.dp
 @OptIn(ExperimentalPagerApi::class)

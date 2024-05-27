@@ -1,5 +1,10 @@
 package com.example.unischedule.presentation.main_screen.components
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,11 +22,13 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -63,11 +70,23 @@ fun ScrollableDayTabs(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if(state.currentDayOfWeek.ordinal-1==index){
                                 if(pagerState.currentPage != index){
+                                    val infiniteTransition = rememberInfiniteTransition(label = "")
+                                    val animateScale by infiniteTransition.animateFloat(
+                                        initialValue = 1f,
+                                        targetValue = 0.7f,
+                                        animationSpec = infiniteRepeatable(
+                                            animation = tween(500),
+                                            repeatMode = RepeatMode.Reverse
+                                        ),
+                                        label = "scale animation"
+                                    )
                                     Box(
                                         modifier = Modifier
-                                            .size(8.dp)
+                                            .size(9.dp)
+                                            .scale(animateScale)
                                             .clip(CircleShape)
                                             .background(Color.Red)
+
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                 }

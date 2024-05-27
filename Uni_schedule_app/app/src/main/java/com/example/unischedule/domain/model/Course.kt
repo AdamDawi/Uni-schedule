@@ -33,3 +33,7 @@ fun Course.toCourseEntity(i: Int): CourseEntity{
         type = type
     )
 }
+
+fun Course.getDurationInHours(): Float {
+    return (endTime - startTime) / 60f
+}

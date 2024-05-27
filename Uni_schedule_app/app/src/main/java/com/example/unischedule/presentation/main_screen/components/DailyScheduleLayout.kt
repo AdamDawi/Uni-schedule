@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.example.unischedule.domain.model.Course
+import com.example.unischedule.domain.model.getDurationInHours
 import com.example.unischedule.presentation.main_screen.MainViewModel
 
 @Composable
@@ -40,7 +41,7 @@ fun DailyScheduleLayout(
         //courses
         val courseItemsPlaceable = mutableListOf<Placeable>()
         courseItems.forEachIndexed{ i, course ->
-            val elHeight = (courseList[i].endTime-courseList[i].startTime)/ 60f
+            val elHeight = courseList[i].getDurationInHours()
             courseItemsPlaceable.add(course.measure(Constraints.fixed(constraints.maxWidth, (elHeight* HOURS_SIZE).roundToPx())))
         }
         //dividers
@@ -62,11 +63,11 @@ fun DailyScheduleLayout(
             }
             //courses
             courseItemsPlaceable.forEachIndexed { i, course ->
-                val elY = ((courseList[i].startTime - 480) / 60f * HOURS_SIZE)
+                val elY = ((courseList[i].startTime - START_HOUR_OF_DAY_IN_MINUTES) / 60f * HOURS_SIZE)
                 course.placeRelative(0, elY.roundToPx())
             }
             //redLine
-            val redLineItemY = ((viewModel.getCurrentTimeInMinutes() - 480) / 60f * HOURS_SIZE)
+            val redLineItemY = ((viewModel.getCurrentTimeInMinutes() - START_HOUR_OF_DAY_IN_MINUTES) / 60f * HOURS_SIZE)
             redLineItemPlaceable?.placeRelative(0, redLineItemY.roundToPx()-RED_LINE_FOR_CURRENT_TIME_HEIGHT.roundToPx())
         }
     }
