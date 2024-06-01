@@ -92,7 +92,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     // For AppWidgets support
-    implementation( libs.androidx.glance.appwidget )
+    implementation( libs.androidx.glance.appwidget)
     implementation(libs.androidx.work.runtime.ktx)
 
     // For interop APIs with Material 2

@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalSize
-import androidx.glance.action.actionStartActivity
+import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.CircularProgressIndicator
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
@@ -34,12 +36,9 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import androidx.work.WorkerParameters
-import com.example.unischedule.MainActivity
 import com.example.unischedule.common.Constants
 import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.common.darkerColor
@@ -118,17 +117,18 @@ class MyAppWidget : GlanceAppWidget() {
         // Use `withContext` to switch to another thread for long running
         // operations.
         setupPeriodicUpdate(context)
-        //get repository from hilt
-        val appContext = context.applicationContext ?: throw IllegalStateException()
-        val coursesEntryPoint =
-            EntryPointAccessors.fromApplication(
-                appContext,
-                CoursesProviderEntryPoint::class.java,
-            )
-        val scheduleDbRepository = coursesEntryPoint.scheduleDbRepository()
-
         //set value
         withContext(Dispatchers.IO) {
+
+            //get repository from hilt
+            val appContext = context.applicationContext ?: throw IllegalStateException()
+            val coursesEntryPoint =
+                EntryPointAccessors.fromApplication(
+                    appContext,
+                    CoursesProviderEntryPoint::class.java,
+                )
+            val scheduleDbRepository = coursesEntryPoint.scheduleDbRepository()
+
             val result = scheduleDbRepository.getAllCourses().first()
                 state.value = state.value.copy(
                     allCourses = result,
@@ -178,7 +178,9 @@ class MyAppWidget : GlanceAppWidget() {
         currentCourse: Course
     ) {
         Column(
-            modifier = GlanceModifier.fillMaxSize().clickable(onClick = actionStartActivity<MainActivity>()),
+            modifier = GlanceModifier.fillMaxSize().clickable(
+                actionRunCallback<RefreshAction>()
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -268,18 +270,19 @@ class MyAppWidget : GlanceAppWidget() {
             }
 
         }
-
         }
     }
 }
 
-class UpdateWidgetWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
-    override suspend fun doWork(): Result {
-        // Update widget
-        Log.e("update", "update all")
-        MyAppWidget().updateAll(applicationContext)
-        return Result.success()
+class RefreshAction : ActionCallback{
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+        MyAppWidget().updateAll(context = context)
     }
 }
+
 
 

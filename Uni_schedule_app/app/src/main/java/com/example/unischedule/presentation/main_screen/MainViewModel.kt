@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
     init {
         getCurrentDayOfWeek()
         getLinkFromDataStore()
-
     }
     fun onEvent(event: MainEvent){
         when(event){
