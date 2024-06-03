@@ -10,10 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.Button
+import androidx.glance.ButtonDefaults
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.CircularProgressIndicator
 import androidx.glance.appwidget.GlanceAppWidget
@@ -39,6 +42,7 @@ import androidx.glance.unit.ColorProvider
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.example.unischedule.MainActivity
 import com.example.unischedule.common.Constants
 import com.example.unischedule.common.DayOfWeek
 import com.example.unischedule.common.darkerColor
@@ -179,7 +183,7 @@ class MyAppWidget : GlanceAppWidget() {
     ) {
         Column(
             modifier = GlanceModifier.fillMaxSize().clickable(
-                actionRunCallback<RefreshAction>()
+                onClick = actionStartActivity<MainActivity>()
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -258,13 +262,34 @@ class MyAppWidget : GlanceAppWidget() {
                     if(size.height >= BIG_SQUARE.height) {
                         Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(12.dp))
                         Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(12.dp))
-                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(12.dp))
+                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(12.dp).padding(bottom = 12.dp))
+                        Button(
+                            text = "Refresh",
+                            onClick = {actionRunCallback<RefreshAction>()},
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = ColorProvider(course.color.darkerColor()),
+                                contentColor = ColorProvider(Color.White)
+                            ),
+                            style = TextStyle(fontWeight = FontWeight.Bold),
+                            modifier = GlanceModifier.padding(12.dp)
+                        )
                     }else {
                         // Collapsed widget
                         Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(8.dp))
                         Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(8.dp))
                         Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(8.dp))
+                        Button(
+                            text = "Refresh",
+                            onClick = {actionRunCallback<RefreshAction>()},
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = ColorProvider(course.color.darkerColor()),
+                                contentColor = ColorProvider(Color.White)
+                            ),
+                            style = TextStyle(fontWeight = FontWeight.Bold),
+                            modifier = GlanceModifier.padding(8.dp)
+                        )
                     }
+
                 }
 
             }
