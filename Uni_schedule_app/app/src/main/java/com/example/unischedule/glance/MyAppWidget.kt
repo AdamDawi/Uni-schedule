@@ -2,7 +2,6 @@ package com.example.unischedule.glance
 
 import android.content.Context
 import android.icu.util.Calendar
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -166,7 +165,6 @@ class MyAppWidget : GlanceAppWidget() {
                     .filter { it.dayOfWeek.equals(DayOfWeek.entries[dayOfWeek.ordinal].name, ignoreCase = true) }
                     .sortedBy { it.endTime }.getOrNull(0)?.toCourse()
             }
-            Log.e("course", currentCourse.toString())
             updateAll(context)
         }
 
@@ -218,7 +216,6 @@ class MyAppWidget : GlanceAppWidget() {
                 .background(course.color),
             contentAlignment = Alignment.Center
         ) { if(course.name.isNotEmpty() && course.room.isNotEmpty() && course.leader.isNotEmpty()){
-
             Box{
                 if (course.type.isNotEmpty()) {
                     Row(
@@ -235,20 +232,20 @@ class MyAppWidget : GlanceAppWidget() {
                         ) {
                             Text(
                                 text = course.type,
-                                style = TextStyle(textAlign = TextAlign.End)
+                                style = TextStyle(textAlign = TextAlign.End),
                             )
                         }
                     }
                 }
                 Column(
                     modifier = GlanceModifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        modifier = GlanceModifier
-                            .padding(8.dp),
+                        modifier = GlanceModifier.padding(start = 24.dp, end = 24.dp),
                         text = course.name,
                         maxLines = 2,
                         style = TextStyle(
@@ -275,9 +272,9 @@ class MyAppWidget : GlanceAppWidget() {
                         )
                     }else {
                         // Collapsed widget
-                        Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(8.dp))
-                        Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(8.dp))
-                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(8.dp))
+                        Text(text = course.room.ifEmpty { "No room" }, modifier = GlanceModifier.padding(6.dp))
+                        Text(text = course.leader.ifEmpty { "No leader" }, modifier = GlanceModifier.padding(6.dp))
+                        Text(text = "${course.dayOfWeek}: ${course.formattedTime()}", modifier = GlanceModifier.padding(6.dp))
                         Button(
                             text = "Refresh",
                             onClick = {actionRunCallback<RefreshAction>()},
@@ -285,8 +282,11 @@ class MyAppWidget : GlanceAppWidget() {
                                 backgroundColor = ColorProvider(course.color.darkerColor()),
                                 contentColor = ColorProvider(Color.White)
                             ),
-                            style = TextStyle(fontWeight = FontWeight.Bold),
-                            modifier = GlanceModifier.padding(8.dp)
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            ),
+                            modifier = GlanceModifier.padding(6.dp)
                         )
                     }
 
