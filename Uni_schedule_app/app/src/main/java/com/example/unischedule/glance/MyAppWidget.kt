@@ -215,7 +215,7 @@ class MyAppWidget : GlanceAppWidget() {
                 .cornerRadius(12.dp)
                 .background(course.color),
             contentAlignment = Alignment.Center
-        ) { if(course.name.isNotEmpty() && course.room.isNotEmpty() && course.leader.isNotEmpty()){
+        ) {
             Box{
                 if (course.type.isNotEmpty()) {
                     Row(
@@ -291,10 +291,7 @@ class MyAppWidget : GlanceAppWidget() {
                     }
 
                 }
-
             }
-
-        }
         }
     }
 }
