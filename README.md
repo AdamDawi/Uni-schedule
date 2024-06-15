@@ -1,6 +1,6 @@
 # <img src="https://github.com/AdamDawi/Uni-schedule/assets/49430055/55569c32-09d1-410e-97f7-3ced5be4a178" width="60" height="60" align="center" /> Uni Schedule
 
-Embark on a culinary adventure with Foodder, an innovative app that transforms food discovery into an engaging and personalized experience. Powered by the latest technologies, Foodder seamlessly blends Tinder-like swiping mechanics with a rich set of features to cater to every foodie's delight.
+UniSchedule is a comprehensive app designed specifically for students of the Faculty of Electrical Engineering and Computer Science at the Lublin University of Technology. It seamlessly integrates with the university's scheduling system to provide a personalized and interactive experience for managing your class schedule.
 
 ## ⭐️Features
 ### Main Screen 
