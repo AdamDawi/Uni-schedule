@@ -6,7 +6,9 @@ Embark on a culinary adventure with Foodder, an innovative app that transforms f
 ### Main Screen 
 - **Schedule Integration:** Connect with the university's schedule system by providing your unique schedule link.
   
-- **Horizontal Pager View:** Display your class schedule in a horizontal pager, making it easy to swipe through your weekly classes.
+- **Horizontal Pager View:** Display your class schedule in a [horizontal pager](#animations), making it easy to swipe through your weekly classes.
+
+- **Custom Layout:** Classes are visually arranged in a [custom layout](#animations) according to their time slots and duration, providing a clear and organized view of your schedule.
 
 - **Live Time Indicator:** A red line dynamically shows the current time on your schedule.
 
@@ -38,7 +40,7 @@ Embark on a culinary adventure with Foodder, an innovative app that transforms f
 
 - **Material Designs:** Used to create the app's intuitive and visually appealing interface (Scaffold, Horizontal Pager, Tabs, Alert Dialog)
 
-### Server:
+### 🖥Server:
 - **Node.js:** The backend server that processes requests and serves schedule data in JSON format.
 
 ## Installation of mobile app
@@ -52,6 +54,8 @@ git clone https://github.com/AdamDawi/Uni-schedule
 
 ## Here are some overview pictures:
 ![22](https://github.com/AdamDawi/Uni-schedule/assets/49430055/568ac3aa-a58c-4d20-8691-09ba49d13898)
+![33](https://github.com/AdamDawi/Uni-schedule/assets/49430055/858a1f2d-ac74-41ba-ae13-5a56f2c5865b)
+![44](https://github.com/AdamDawi/Uni-schedule/assets/49430055/65a83933-6404-4535-b3d6-70fccf5b6c54)
 ![11](https://github.com/AdamDawi/Uni-schedule/assets/49430055/5ffad230-724b-4f98-bacd-0b9c485d9e4b)
 
 ## Animations:
