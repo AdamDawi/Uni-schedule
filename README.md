@@ -59,6 +59,7 @@ git clone https://github.com/AdamDawi/Uni-schedule
 
 ## Requirements
 Minimum version: Android 8 (API level 26) or later📱
+
 Target version: Android 14 (API level 34) or later📱
 
 ## Authors
