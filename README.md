@@ -61,6 +61,9 @@ git clone https://github.com/AdamDawi/Uni-schedule
 ## Animations:
 ![schedule_gif](https://github.com/AdamDawi/Uni-schedule/assets/49430055/d1b10eb5-ce62-427f-a21f-c84f53c2ea1e)
 
+## Widget:
+![Image](https://github.com/user-attachments/assets/493b6979-1865-42bc-88d5-62565c466087)
+
 ## Requirements
 Minimum version: Android 8 (API level 26) or later📱
 
